@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 import os
 import glob
-from tkinter import filedialog, messagebox, ttk
 from openpyxl import load_workbook
 from shutil import copyfile
 import datetime
