@@ -5,77 +5,91 @@
 {% endblock css %}
 {% block content %}
 
-<main>  
-    <nav class="item">
-        <ul>
-            <li><a href="">GSTR</a></li>
-            <li><a href="{% url 'core:logout' %}">LOGOUT</a></li>
-            <div class="dropdown">
-                <button class="dropbtn">GST
-                  <i class="fa fa-caret-down"></i>
-                </button>
-                <div class="dropdown-content">
-                  <a href="{% url 'gst:gst_number_check' %}">GST Number Check</a>
-                  <a href="#">GSTR Merge Excel</a>
-                  <a href="#">GSTR 1 JSON To Excel Converter</a>
-                  <a href="#">GSTR 2B JSON To Excel Converter</a>
-                  <a href="#">GSTR 3B PDF To Excel Converter</a>
-                </div>
+<div class="container">
+    <div class="row sectionOne">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container-fluid">
+              <!-- <a class="navbar-brand" href="#">Navbar</a> -->
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">GSTR</a>
+                  </li>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      GST
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                      <li><a class="dropdown-item" href="{% url 'gst:gst_number_check' %}">GST Number Check</a></li>
+                      <li><a class="dropdown-item" href="#">GSTR Merge Excel</a></li>
+                      <li><a class="dropdown-item" href="#">GSTR 1 JSON To Excel Converter</a></li>
+                      <li><a class="dropdown-item" href="#">GSTR 2B JSON To Excel Converter</a></li>
+                      <li><a class="dropdown-item" href="#">GSTR 3B PDF To Excel Converter</a></li>
+                    </ul>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'core:logout' %}">LOGOUT</a>
+                  </li>
+                </ul>
+              </div>
             </div>
-        </ul>
-    </nav>
-    
-    <section class="item-center">
-        {% if messages %}
-            <div class="notification">
-                    {% for message in messages %}
-                    <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
-                    {% endfor %}
-            </div>
-        {% endif %}
-        <div>
-            <a href="{% url 'core:download_sample_file' %}" class="a-button sample">Click this button to download sample files to test application</a>
-            <form action="" class="" method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div class="flex-container dodger-blue">
+          </nav>
+    </div>
+    <div class="mt-5 ps-5 pe-5">
+       <a href="{% url 'core:download_sample_file' %}"><button type="button" class="btn col-12 sample-btn">Click this button to download sample files to test application</button></a>
+    </div>
+    <form action="" class="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row sectionTwo bg-primary mt-5 ms-5 me-5 p-4 rounded-5">
+            <div class="card col-md-6 bg-light">
+                <div class="card-body">
                     <div>
                         <div>
-                            <label for="GSTr2A">ITR</label>
-                        </div>
-                        {% comment %} <input class="mb-10" type="file" id="GSTr2A" required> {% endcomment %}
-                        {{ form.file_1}}
-                    </div>
-                    <div>
-                        <div>
-                            <label for="ITR">GSTr2A</label>
+                            <label for="ITR">ITR</label>
                         </div>
                         {% comment %} <input class="mb-10" type="file" id="ITR" required> {% endcomment %}
+                        {{ form.file_1}}
+                    </div>
+                </div>
+            </div>
+            <div class="card col-md-6 bg-light">
+                <div class="card-body">
+                    <div>
+                        <div>
+                            <label for="GSTr2A">GSTr2A</label>
+                        </div>
+                        {% comment %} <input class="mb-10" type="file" id="GSTr2A" required> {% endcomment %}
                         {{ form.file_2}}
                     </div>
                 </div>
-                <div class="flex-container">
-                    <button type="submit" class="mb-10">UPLOAD</button>
-                    {% if is_upload %}
-                    <a href="{% url 'core:reconcile' file_path_1 file_path_2 %}" class="text-center reconcile">RECONCILE</a>
-                    {% else %}
-                    <a class="text-center">RECONCILE</a>
-                    {% endif %}
                 </div>
-            </form>
-            {% if summary_file_path %}
-                <a href="{% url 'core:download_file' summary_file_path %}" class="a-button summary">Download summary file</a>
-            {% endif %}
+            </div>
         </div>
-    </section>
-    <footer class="item"> 
-        &copy; 2023
-    </footer>
-</main>
-
-
-
-
-
+        <div class="row sectionThree mt-5 ms-5 me-5 pe-2 ps-2">
+            <div class="col-sm-6 mb-2">
+                <button type="submit" class="btn btn-primary col-12">UPLOAD</button>
+            </div>
+            <div class="col-sm-6">
+                {% if is_upload %}
+                    <a href="{% url 'core:reconcile' file_path_1 file_path_2 %}"><button type="button" class="btn btn-primary col-12">RECONCILE</button></a>
+                {% else %}
+                    <button type="button" class="btn btn-info col-12">RECONCILE</button>
+                {% endif %}
+            </div>
+        </div>
+    </form>
+    {% if summary_file_path %}
+    <div class="ms-5 me-5 mt-5">
+       <a href="{% url 'core:download_file' summary_file_path %}"><button type="button" class="btn col-12 sample-btn">Download summary file</button></a>
+    </div>
+    {% endif %}
+</div>
+<div class="item border footer"> 
+    &copy; 2023
+</div>
 {% comment %} <a href="/logout">Logout</a> ||
 <a href="/">Home</a>
 
