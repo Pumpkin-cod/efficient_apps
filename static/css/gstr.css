@@ -1,3 +1,8 @@
+body{
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: 1fr auto;
+}
 
 .container{
     margin: 0% !important;
@@ -5,7 +10,7 @@
 }
 
 .footer{
-    margin-top: 10vh;
+    margin-top: auto;
     display: flex;
     justify-content: center;
     padding: 1%;
