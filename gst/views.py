@@ -7,7 +7,7 @@ from django.http import JsonResponse
 def gst_number_check(request):
     if request.method == 'POST':
         try:
-            number = request.POST.get('gst_number')
+            number = request.POST.get('gst_numbers')
             if number:
                 """
                 This function getgstcheck will give the last digit of the gst number
@@ -60,7 +60,7 @@ def gst_number_check(request):
                 else:
                     finalchk=chr(checksum+55)
                 # return (finalchk)
-                print(finalchk,"/n/n/n/n")
+                print(finalchk,"\n\n\n\n")
                 return JsonResponse({"success": finalchk}, status=200)
             else:
                 return JsonResponse({"error": "GST number missing"},status=400)

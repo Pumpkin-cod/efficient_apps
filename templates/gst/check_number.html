@@ -51,6 +51,7 @@
                             <label for="GST">Enter GST Number</label>
                         </div>
                         <div class="form-group mt-2">
+                            {% csrf_token %}
                             <textarea class="form-control" rows="5" id="GST"></textarea>
                         </div>
                     </div>
@@ -60,7 +61,7 @@
         <!-- </div> -->
         <div class="row sectionThree_gst_chck_num mt-5 ms-5 me-5">
             <div class="col-sm-6 mb-2">
-                <button type="submit" class="btn btn-primary col-12">SUBMIT</button>
+                <button type="button" onclick="check_gst_number()" class="btn btn-primary col-12">SUBMIT</button>
             </div>
         </div>
     {% if summary_file_path %}
@@ -72,33 +73,34 @@
 <div class="item border footer"> 
     &copy; 2023
 </div>
-{% comment %} <a href="/logout">Logout</a> ||
-<a href="/">Home</a>
 
-
-<h1>INDEX PAGE</h1>
-<main>
-    <form action="" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{form.as_p}}
-        <button type="submit">Upload</button>
-    </form><br/>
-    {% if is_upload %}
-    <a href="{% url 'core:reconcile' file_path_1 file_path_2 %}"><button>Reconcile</button></a>
-    {% else %}
-    <button>Reconcile</button><br/>
-    {% endif %}
-
-    {% if summary_file_path %}
-        <a href="{% url 'core:download_file' summary_file_path %}">Download summary file</a><br/>
-    {% endif %}
-
-    <br/>
-    <a href="{% url 'core:download_sample_file' %}"><button>Click this button to download sample files to test application</button></a><br/>
-
-   {% if summary_file_path and working_file_path %}
-        <a href="{% url 'core:download_file' summary_file_path %}">Download summary file</a><br/>
-        <a href="{% url 'core:download_file' working_file_path %}">Download working file</a>
-    {% endif %} 
-</main> {% endcomment %}
 {% endblock content %} 
+{% block script %}
+    <script>
+        const check_gst_number = () =>{
+            const gst_numbers = $('#GST').val();
+            $.ajax({
+                type:"POST",
+                url: "{% url 'gst:gst_number_check' %}",
+                data: {
+                    csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+                    gst_numbers
+                },
+                success: function (data) {
+                    Swal.fire({
+                        position: 'center',
+                        title: data.success,
+                        showConfirmButton: true,
+                    })
+                },
+                error: function (data) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: data.responseJSON.error,
+                    })
+                }
+            })
+        }
+    </script>
+{% endblock script %}
