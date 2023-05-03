@@ -4,57 +4,98 @@
 <link rel="stylesheet" href="{% static 'css/gstr.css' %}">
 {% endblock css %}
 {% block content %}
-<main>  
-    <nav class="item">
-        <ul>
-            <li><a href="{% url 'core:gstr_home' %}">GSTR</a></li>
-            <li><a href="{% url 'core:logout' %}">LOGOUT</a></li>
-            <div class="dropdown">
-                <button class="dropbtn">GST
-                  <i class="fa fa-caret-down"></i>
-                </button>
-                <div class="dropdown-content">
-                  <a href="{% url 'gst:gst_number_check' %}">GST Number Check</a>
-                  <a href="#">GSTR Merge Excel</a>
-                  <a href="#">GSTR 1 JSON To Excel Converter</a>
-                  <a href="#">GSTR 2B JSON To Excel Converter</a>
-                  <a href="#">GSTR 3B PDF To Excel Converter</a>
-                </div>
+
+<div class="container">
+    <div class="row sectionOne">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container-fluid">
+              <!-- <a class="navbar-brand" href="#">Navbar</a> -->
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'core:gstr_home' %}">GSTR</a>
+                  </li>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      GST
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                      <li><a class="dropdown-item" href="{% url 'gst:gst_number_check' %}">GST Number Check</a></li>
+                      <li><a class="dropdown-item" href="#">GSTR Merge Excel</a></li>
+                      <li><a class="dropdown-item" href="#">GSTR 1 JSON To Excel Converter</a></li>
+                      <li><a class="dropdown-item" href="#">GSTR 2B JSON To Excel Converter</a></li>
+                      <li><a class="dropdown-item" href="#">GSTR 3B PDF To Excel Converter</a></li>
+                    </ul>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'core:logout' %}">LOGOUT</a>
+                  </li>
+                </ul>
+              </div>
             </div>
-        </ul>
-    </nav>
-    
-    <section class="item-center">
-        {% if messages %}
-            <div class="notification">
-                    {% for message in messages %}
-                    <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
-                    {% endfor %}
-            </div>
-        {% endif %}
-        <div>
-            <a href="{% url 'core:download_sample_file' %}" class="a-button sample">Click this button to download sample files to test application</a>
-            <form action="" class="" method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div class="flex-container dodger-blue">
+        </nav>
+    </div>
+    <!-- <div class="mt-5 ps-5 pe-5">
+       <a href="{% url 'core:download_sample_file' %}"><button type="button" class="btn col-12 sample-btn">Click this button to download sample files to test application</button></a>
+    </div> -->
+        {% csrf_token %}
+        <div class="row sectionTwo_gst_chck_num bg-primary mt-5 p-4 rounded-5">
+            <div class="card bg-light">
+                <div class="card-body">
                     <div>
-                        <div class="mb-3 border">
-                            <label for="exampleInputEmail1" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                        <div>
+                            <label for="GST">Enter GST Number</label>
                         </div>
+                        <input type="text" class="form-control" id="GST">
                     </div>
                 </div>
-                <div class="flex-container" style="justify-content: center;">
-                    <button type="submit" class="mb-10">Check</button>
-                </div>
-            </form>
-            {% if summary_file_path %}
-                <a href="{% url 'core:download_file' summary_file_path %}" class="a-button summary">Download summary file</a>
-            {% endif %}
+            </div>
         </div>
-    </section>
-    <footer class="item"> 
-        &copy; 2023
-    </footer>
-</main>
+        <!-- </div> -->
+        <div class="row sectionThree_gst_chck_num mt-5 ms-5 me-5">
+            <div class="col-sm-6 mb-2">
+                <button type="submit" class="btn btn-primary col-12">SUBMIT</button>
+            </div>
+        </div>
+    {% if summary_file_path %}
+    <div class="ms-5 me-5 mt-5">
+       <a href="{% url 'core:download_file' summary_file_path %}"><button type="button" class="btn col-12 sample-btn">Download summary file</button></a>
+    </div>
+    {% endif %}
+</div>
+<div class="item border footer"> 
+    &copy; 2023
+</div>
+{% comment %} <a href="/logout">Logout</a> ||
+<a href="/">Home</a>
+
+
+<h1>INDEX PAGE</h1>
+<main>
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit">Upload</button>
+    </form><br/>
+    {% if is_upload %}
+    <a href="{% url 'core:reconcile' file_path_1 file_path_2 %}"><button>Reconcile</button></a>
+    {% else %}
+    <button>Reconcile</button><br/>
+    {% endif %}
+
+    {% if summary_file_path %}
+        <a href="{% url 'core:download_file' summary_file_path %}">Download summary file</a><br/>
+    {% endif %}
+
+    <br/>
+    <a href="{% url 'core:download_sample_file' %}"><button>Click this button to download sample files to test application</button></a><br/>
+
+   {% if summary_file_path and working_file_path %}
+        <a href="{% url 'core:download_file' summary_file_path %}">Download summary file</a><br/>
+        <a href="{% url 'core:download_file' working_file_path %}">Download working file</a>
+    {% endif %} 
+</main> {% endcomment %}
 {% endblock content %} 
