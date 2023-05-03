@@ -93,15 +93,15 @@ def gstr_table_wise(i,data,filepath,name):
     dic_table = expand_list(table_data)
     
     try:
-        df_b2b = pd.DataFrame(dic_table)
+        df = pd.DataFrame(dic_table)
     except ValueError:
-        df_b2b = pd.DataFrame(dic_table, index=[0])
+        df = pd.DataFrame(dic_table, index=[0])
 
 
-    df_b2b["GSTR1-Table"] = name
-    df_b2b["Json File Name"] = filepath
+    df["GSTR1-Table"] = name
+    df["Json File Name"] = filepath
                 
-    return df_b2b
+    return df
 
 def gstr1_to_excel(filepath):
 
