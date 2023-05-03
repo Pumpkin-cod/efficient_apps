@@ -19,6 +19,7 @@ def get_gst_check(number):
         raise TypeError("Only strings are allowed")
 
     if len(number) < 14:
+        print(type(number))
         raise ValueError("Please ensure that the input is at least 14 digits long")
 
     char_list = [char.upper() for char in number]
@@ -62,7 +63,7 @@ def gstchecksum(gst_no):
     """
 
     last_digit = gst_no[-1]
-    computed_check_sum = getgstcheck(gst_no[:-1])
+    computed_check_sum = get_gst_check(gst_no[:-1])
     if computed_check_sum == last_digit:
         return "Check Sum MATCH"
     else:
@@ -135,7 +136,7 @@ def get_gst_type(gst_no: str) -> str:
     tcs_id = re.compile("[0-9]{2}[a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}[1-9A-Za-z]{1}[C]{1}[0-9a-zA-Z]{1}")
     norm_com_isd = re.compile("[0-9]{2}[a-zA-Z]{5}[0-9]{4}[a-zA-Z]{1}[1-9A-Za-z]{1}[Zz1-9A-Ja-j]{1}[0-9a-zA-Z]{1}")
 
-    if gst_no[-1] != getgstcheck(gst_no):
+    if gst_no[-1] != get_gst_check(gst_no):
         return "Invalid GSTN"
     elif oidar_id.search(gst_no):
         return "OIDAR ID GSTN"
@@ -162,8 +163,8 @@ def process_gst_list(gst_list):
     :param gst_list: A list of GST numbers
     :return: A pandas dataframe with the columns 'GSTIN', 'Valid', 'PAN Number', and 'GST Type'
     """
-    # Initialize an empty dataframe with the required columns
-    df = pd.DataFrame(columns=['GSTIN', 'Validity', 'PAN Number', 'GST Type'])
+    # Initialize an empty list to store dataframes
+    dfs = []
 
     # Iterate through each element in the list
     for gst_no in gst_list:
@@ -177,10 +178,19 @@ def process_gst_list(gst_list):
         # Identify the type of GSTIN
         gst_type = get_gst_type(gst_no)
 
-        # Append the results to the dataframe
-        df = df.append({'GSTIN': gst_no, 'Validity': is_valid, 'PAN Number': pan_num, 'GST Type': gst_type},
-                       ignore_index=True)
+        # Create a dataframe with the current row data
+        current_df = pd.DataFrame({'GSTIN': [gst_no], 'Validity': [is_valid], 'PAN Number': [pan_num], 'GST Type': [gst_type]})
+
+        # Append the dataframe to the list
+        dfs.append(current_df)
+
+    # Concatenate all the dataframes in the list
+    df = pd.concat(dfs, ignore_index=True)
 
     return df
 
+
+df=process_gst_list("10AAACI1681G1Z4")
+
+print(df)
 

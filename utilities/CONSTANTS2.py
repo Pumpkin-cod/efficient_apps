@@ -57,7 +57,7 @@ R2A_CDNR_COL_MAPPING={
     'Unnamed: 0': 'GSTIN_of_Supplier',
     'Unnamed: 1': 'Trade_Name_of_Supplier',
     'Note type': 'Final_Inv_CNDN_Type',
-    'Note Number': 'Final_Invoice_CNDN_No',
+    'Note number': 'Final_Invoice_CNDN_No',
     'Note Supply type ': 'Final_Note_Supply_Type',
     'Note  date': 'Final_Invoice_CNDN_Date',
     'Note Value (₹)': 'Invoice_CNDN_Value',
