@@ -81,12 +81,12 @@
                 </tr>
             </thead>
             <tbody id="t_body">
-                <tr>
-                    <td id="gstin">Row 1 Data 1</td>
-                    <td id="validity">Row 1 Data 1</td>
-                    <td id="pan_number">Row 1 Data 1</td>
-                    <td id="gst_type">Row 1 Data 1</td>
-                </tr>
+                <!-- <tr>
+                    <td id="gstin"></td>
+                    <td id="validity"></td>
+                    <td id="pan_number"></td>
+                    <td id="gst_type"></td>
+                </tr> -->
             </tbody>
         </table>
     </div>
@@ -116,8 +116,18 @@
                     console.log(data.success[0]);
                     if (data.success.length > 0){
                         // data.success.map(item => {
+                            // var gst = document.getElementById('gstin_0');
+                            var gst = $('#gstin_0');
+                            if (gst.length > 0){
+                                for (var j = 0; j <= data.success.length - 1; ++j){
+                                document.getElementById(`gstin_${j}`).remove();
+                                document.getElementById(`validity_${j}`).remove();
+                                document.getElementById(`pan_number_${j}`).remove();
+                                document.getElementById(`gst_type_${j}`).remove();
+                            }
+                            }
                             for (var i = 0; i <= data.success.length - 1; ++i){
-                                console.log(data.success[i],"this---");
+                                console.log(data.success[i],"this");
                                 t_body.innerHTML += `
                                 <tr>
                                     <th id="gstin_${i}" scope="row">${data.success[i]['GSTIN']}</th>
