@@ -87,9 +87,10 @@
                     gst_numbers
                 },
                 success: function (data) {
+                    console.log(data.success[0]);
                     Swal.fire({
                         position: 'center',
-                        title: data.success,
+                        title: data.success[0]['GSTIN'],
                         showConfirmButton: true,
                     })
                 },
