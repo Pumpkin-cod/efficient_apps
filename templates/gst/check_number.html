@@ -69,6 +69,26 @@
        <a href="{% url 'core:download_file' summary_file_path %}"><button type="button" class="btn col-12 sample-btn">Download summary file</button></a>
     </div>
     {% endif %}
+    <!-- Data Table -->
+    <table id="myTable" class="display">
+        <thead>
+            <tr>
+                <th>Column 1</th>
+                <th>Column 2</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Row 1 Data 1</td>
+                <td>Row 1 Data 2</td>
+            </tr>
+            <tr>
+                <td>Row 2 Data 1</td>
+                <td>Row 2 Data 2</td>
+            </tr>
+        </tbody>
+    </table>
+    <!-- End Data Table -->
 </div>
 <div class="item border footer"> 
     &copy; 2023
@@ -103,5 +123,10 @@
                 }
             })
         }
+    </script>
+    <script>
+        $(document).ready( function () {
+            $('#myTable').DataTable();
+        });
     </script>
 {% endblock script %}

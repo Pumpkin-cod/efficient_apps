@@ -15,7 +15,6 @@ def gst_number_check(request):
             if number:
                 gst_list = string_to_list_converter(number)
                 finalchk = process_gst_list(gst_list)
-                print(finalchk,"\n\n\n\n\n")
                 return JsonResponse({"success": json.loads(finalchk)}, safe = False, status=200)
             else:
                 return JsonResponse({"error": "GST number missing"},status=400)
