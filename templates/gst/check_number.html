@@ -115,29 +115,26 @@
                     $('#gst_table').show();
                     console.log(data.success[0]);
                     if (data.success.length > 0){
-                        // data.success.map(item => {
-                            // var gst = document.getElementById('gstin_0');
                             var gst = $('#gstin_0');
-                            if (gst.length > 0){
-                                for (var j = 0; j <= data.success.length - 1; ++j){
-                                document.getElementById(`gstin_${j}`).remove();
-                                document.getElementById(`validity_${j}`).remove();
-                                document.getElementById(`pan_number_${j}`).remove();
-                                document.getElementById(`gst_type_${j}`).remove();
-                            }
-                            }
-                            for (var i = 0; i <= data.success.length - 1; ++i){
-                                console.log(data.success[i],"this");
-                                t_body.innerHTML += `
-                                <tr>
-                                    <th id="gstin_${i}" scope="row">${data.success[i]['GSTIN']}</th>
-                                    <td id="validity_${i}">${data.success[i]['Validity']}</td>
-                                    <td id="pan_number_${i}">${data.success[i]['PAN Number']}</td>
-                                    <td id="gst_type_${i}">${data.success[i]['GST Type']}</td>
-                                </tr>
-                                `
-                            }
-                        // })
+                            // for (var j = 0; j <= data.success.length - 1; ++j){
+                            //     document.getElementById(`gstin_${j}`).remove();
+                            //     document.getElementById(`validity_${j}`).remove();
+                            //     document.getElementById(`pan_number_${j}`).remove();
+                            //     document.getElementById(`gst_type_${j}`).remove();
+                            //     }
+                            if (gst.length == null || gst.length == 0){
+                                for (var i = 0; i <= data.success.length - 1; ++i){
+                                    console.log(data.success[i],"this");
+                                    t_body.innerHTML += `
+                                    <tr>
+                                        <th id="gstin_${i}" scope="row">${data.success[i]['GSTIN']}</th>
+                                        <td id="validity_${i}">${data.success[i]['Validity']}</td>
+                                        <td id="pan_number_${i}">${data.success[i]['PAN Number']}</td>
+                                        <td id="gst_type_${i}">${data.success[i]['GST Type']}</td>
+                                    </tr>
+                                    `
+                                }
+                            } 
                     }
                 },
                 error: function (data) {
