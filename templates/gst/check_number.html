@@ -70,24 +70,26 @@
     </div>
     {% endif %}
     <!-- Data Table -->
-    <table id="myTable" class="display">
-        <thead>
-            <tr>
-                <th>Column 1</th>
-                <th>Column 2</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Row 1 Data 1</td>
-                <td>Row 1 Data 2</td>
-            </tr>
-            <tr>
-                <td>Row 2 Data 1</td>
-                <td>Row 2 Data 2</td>
-            </tr>
-        </tbody>
-    </table>
+    <div id="gst_table">
+        <table id="myTable" class="display">
+            <thead>
+                <tr>
+                    <th>GSTIN</th>
+                    <th>Validity</th>
+                    <th>PAN Number</th>
+                    <th>GST Type</th>
+                </tr>
+            </thead>
+            <tbody id="t_body">
+                <tr>
+                    <td id="gstin">Row 1 Data 1</td>
+                    <td id="validity">Row 1 Data 1</td>
+                    <td id="pan_number">Row 1 Data 1</td>
+                    <td id="gst_type">Row 1 Data 1</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
     <!-- End Data Table -->
 </div>
 <div class="item border footer"> 
@@ -96,6 +98,9 @@
 
 {% endblock content %} 
 {% block script %}
+    <script>
+        $('#gst_table').hide();
+    </script>
     <script>
         const check_gst_number = () =>{
             const gst_numbers = $('#GST').val();
@@ -107,14 +112,26 @@
                     gst_numbers
                 },
                 success: function (data) {
+                    $('#gst_table').show();
                     console.log(data.success[0]);
-                    Swal.fire({
-                        position: 'center',
-                        title: data.success[0]['GSTIN'],
-                        showConfirmButton: true,
-                    })
+                    if (data.success.length > 0){
+                        // data.success.map(item => {
+                            for (var i = 0; i <= data.success.length - 1; ++i){
+                                console.log(data.success[i],"this---");
+                                t_body.innerHTML += `
+                                <tr>
+                                    <th id="gstin_${i}" scope="row">${data.success[i]['GSTIN']}</th>
+                                    <td id="validity_${i}">${data.success[i]['Validity']}</td>
+                                    <td id="pan_number_${i}">${data.success[i]['PAN Number']}</td>
+                                    <td id="gst_type_${i}">${data.success[i]['GST Type']}</td>
+                                </tr>
+                                `
+                            }
+                        // })
+                    }
                 },
                 error: function (data) {
+                    $('#gst_table').hide();
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
