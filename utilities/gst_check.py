@@ -73,11 +73,14 @@ def gstchecksum(gst_no):
 def extract_pan(gst_no):
     """
     Extracts the PAN number from a GST number.
+
     Parameters:
     gst_no (str): The GST number from which the PAN number needs to be extracted.
                   The GST number must be at least 15 characters long.
+
     Returns:
     str: The extracted PAN number.
+
     Raises:
     TypeError: If the `gst_no` parameter is not a string.
     ValueError: If the `gst_no` parameter is not at least 15 characters long.
@@ -98,8 +101,10 @@ def extract_pan(gst_no):
 def get_gst_type(gst_no: str) -> str:
     """
     Identify the type of the given GST number and return a string describing the type.
+
     Args:
         gst_no: A string containing the GST number.
+
     Returns:
         A string that describes the type of the GST number.
         Possible values are:
@@ -111,8 +116,10 @@ def get_gst_type(gst_no: str) -> str:
         - "TCS ID GSTN"
         - "Normal_Composition_ISD GSTIN"
         - "Invalid GSTN"
+
     Raises:
         TypeError: If the provided `gst_no` is not a string.
+
         Exception: If the length of the `gst_no` is not 15 characters.
     """
     if not isinstance(gst_no, str):
@@ -178,7 +185,7 @@ def process_gst_list(gst_list):
         dfs.append(current_df)
 
     # Concatenate all the dataframes in the list
-    df = pd.concat(dfs, ignore_index=True).to_json(orient='records')
+    df = pd.concat(dfs, ignore_index=True)
 
     return df
 
@@ -186,3 +193,4 @@ def process_gst_list(gst_list):
 # df=process_gst_list("10AAACI1681G1Z4")
 
 # print(df)
+

@@ -20,7 +20,6 @@
                             <label for="GST">Enter GST Number</label>
                         </div>
                         <div class="form-group mt-2">
-                            {% csrf_token %}
                             <textarea class="form-control" rows="5" id="GST"></textarea>
                         </div>
                     </div>
@@ -38,6 +37,7 @@
        <a href="{% url 'core:download_file' summary_file_path %}"><button type="button" class="btn col-12 sample-btn">Download summary file</button></a>
     </div>
     {% endif %}
+    
     <!-- Data Table -->
     <div id="gst_table">
         <table id="myTable" class="display">
@@ -60,6 +60,7 @@
         </table>
     </div>
     <!-- End Data Table -->
+
 </div>
 {% include 'footer.html' %}
 

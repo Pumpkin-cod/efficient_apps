@@ -31,7 +31,7 @@ def gstr_home(request: HttpRequest, working_file_path=None, summary_file_path=No
         form = UploadFileForm(request.POST, request.FILES)
         file_1 = request.FILES.get('file_1')
         file_2 = request.FILES.get('file_2')
-        print(file_1)
+        print(file_1,"\n\n\n\n\n\n\n")
         print(file_2)
         if form.is_valid():
             instance = form.save(commit=False)

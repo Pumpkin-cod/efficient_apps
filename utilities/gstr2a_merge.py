@@ -2,7 +2,15 @@ import os
 import glob
 import pandas as pd
 import numpy as np
-from CONSTANTS2 import R2A_B2B_COL_MAPPING, R2A_B2BA_COL_MAPPING,R2A_CDNR_COL_MAPPING,R2A_CDNRA_COL_MAPPING
+
+from utilities.CONSTANTS2 import R2A_B2B_COL_MAPPING, R2A_B2BA_COL_MAPPING,R2A_CDNR_COL_MAPPING,R2A_CDNRA_COL_MAPPING
+
+
+def get_pan_number(x):
+    if isinstance(x, str):
+        return x[2:12:1]
+    else:
+        return ''
 
 
 def validate_files(folder):
@@ -43,10 +51,9 @@ def read_excel_files(folder_path):
     return excel_files
 
 
-
 def read_excel_sheet(excel_file, sheet_index, skip_rows):
     df = pd.read_excel(excel_file, sheet_name=sheet_index, skiprows=skip_rows)
-    df.dropna(how="all")
+    df.dropna(how="all",inplace=True)
     df['File_name'] = os.path.basename(excel_file)
     return df
 
@@ -62,13 +69,14 @@ def clean_add_cols_df(df2, tran_type="B2B"):
     df3.loc[:, 'Total_Tax'] = df3['IGST_Amount'] + df3['CGST_Amount'] + df3['SGST_Amount']
     df3.loc[:, 'Unique_ID'] = df3['GSTIN_of_Supplier'] + "/" + df3['Final_Invoice_CNDN_No'] + "/" + df3['Inv_CN_DN_Date_Text']
 
-    df3.loc[:, 'PAN_Number'] = df3["GSTIN_of_Supplier"].apply(lambda x: x[2:12:1])
+    df3.loc[:, 'PAN_Number'] = df3["GSTIN_of_Supplier"].apply(get_pan_number)
 
-    df3.loc[:, 'GSTR2A_Table'] = tran_type
+    df3['GSTR2A_Table'] = tran_type
 
     df3.replace(np.nan, "", inplace=True, regex=True)
 
     return df3
+
 
 def add_master_cols(df10):
 
@@ -106,42 +114,49 @@ def gstr2a_merge(folder_path):
     """
     excel_files = read_excel_files(folder_path)
     print(f"The files that will be combined are:\n{excel_files}")
+
+    print("We are combining the B2B sheets of all files...")
     df_b2b = pd.concat([read_excel_sheet(file, 1, [0, 1, 2, 3, 4]) for file in excel_files])
+    
+    print("We are combining the B2BA sheets of all files...")
     df_b2ba = pd.concat([read_excel_sheet(file, 2, [0, 1, 2, 3, 4, 5]) for file in excel_files])
+    
+    print("We are combining the CDNR sheets of all files...")
     df_cdnr = pd.concat([read_excel_sheet(file, 3, [0, 1, 2, 3, 4]) for file in excel_files])
+    
+    print("We are combining the CDNRA sheets of all files...")
     df_cdnra = pd.concat([read_excel_sheet(file, 4, [0, 1, 2, 3, 4, 5]) for file in excel_files])
 
-    print(df_b2b)
-    print(df_b2ba)
-    print(df_cdnr)
-    print(df_cdnra)
-    
+
+    print("Renaming the Column Names...")
     df_b2b.rename(columns=R2A_B2B_COL_MAPPING, inplace=True)
     df_b2ba.rename(columns=R2A_B2BA_COL_MAPPING, inplace=True)
     df_cdnr.rename(columns=R2A_CDNR_COL_MAPPING, inplace=True)
     df_cdnra.rename(columns=R2A_CDNRA_COL_MAPPING, inplace=True)
 
-    df_b2b.to_excel("temp_out.xlsx")
-
+    print("Cleaning the data and adding columns...")
     final_b2b=clean_add_cols_df(df_b2b,tran_type="B2B")
     final_b2ba=clean_add_cols_df(df_b2ba,tran_type="B2BA")
-    final_cdnr=clean_add_cols_df(df_cdnr,tran_type="B2BA")
-    final_cdnra=clean_add_cols_df(df_cdnra,tran_type="B2BA")
+    final_cdnr=clean_add_cols_df(df_cdnr,tran_type="CDNR")
+    final_cdnra=clean_add_cols_df(df_cdnra,tran_type="CDNRA")
 
     
     all_sheets = [final_b2b, final_b2ba, final_cdnr, final_cdnra]
     
+    print("Merging all the sheets created...")
     df_all = pd.concat(all_sheets)
     df_all.reset_index(inplace=True, drop=True)
     
     df_all_added=add_master_cols(df_all)
     
+    print("The File is ready to download...")
+
     return df_all_added
 
 
-df=gstr2a_merge(r"D:\My Drive\Eff Corp Website\GSTR2A ITR RECO\Exercise_19032023_0815\ALL GSTR2A")
+# df=gstr2a_merge(r"D:\My Drive\Eff Corp Website\GSTR2A ITR RECO\Exercise_19032023_0815\TEST GSTR2A")
 
-df.to_excel("Outheck.xlsx")
+# df.to_excel("Outheck.xlsx")
 
 
 
