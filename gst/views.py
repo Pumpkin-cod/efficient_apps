@@ -2,12 +2,13 @@ from django.shortcuts import render
 from django.http import JsonResponse
 import json
 from helper.string_to_list import string_to_list_converter
+from django.contrib.auth.decorators import login_required
 # from http import HTTPStatus
 
 from utilities.gst_check import process_gst_list
 
 # Create your views here.
-
+@login_required()
 def gst_number_check(request):
     if request.method == 'POST':
         try:
@@ -22,3 +23,7 @@ def gst_number_check(request):
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=500) 
     return render(request, 'gst/check_number.html')
+
+@login_required()
+def gstr_merge_excel():
+    pass

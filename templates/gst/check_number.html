@@ -7,38 +7,7 @@
 {% block content %}
 
 <div class="container">
-    <div class="row sectionOne">
-        <nav class="navbar navbar-expand-lg navbar-light">
-            <div class="container-fluid">
-              <!-- <a class="navbar-brand" href="#">Navbar</a> -->
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav">
-                  <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{% url 'core:gstr_home' %}">GSTR</a>
-                  </li>
-                  <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      GST
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                      <li><a class="dropdown-item" href="{% url 'gst:gst_number_check' %}">GST Number Check</a></li>
-                      <li><a class="dropdown-item" href="#">GSTR Merge Excel</a></li>
-                      <li><a class="dropdown-item" href="#">GSTR 1 JSON To Excel Converter</a></li>
-                      <li><a class="dropdown-item" href="#">GSTR 2B JSON To Excel Converter</a></li>
-                      <li><a class="dropdown-item" href="#">GSTR 3B PDF To Excel Converter</a></li>
-                    </ul>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="{% url 'core:logout' %}">LOGOUT</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-        </nav>
-    </div>
+    {% include 'header.html' %}
     <!-- <div class="mt-5 ps-5 pe-5">
        <a href="{% url 'core:download_sample_file' %}"><button type="button" class="btn col-12 sample-btn">Click this button to download sample files to test application</button></a>
     </div> -->
@@ -81,12 +50,12 @@
                 </tr>
             </thead>
             <tbody id="t_body">
-                <!-- <tr>
+                <tr>
                     <td id="gstin"></td>
                     <td id="validity"></td>
                     <td id="pan_number"></td>
                     <td id="gst_type"></td>
-                </tr> -->
+                </tr>
             </tbody>
         </table>
     </div>
@@ -124,7 +93,7 @@
                             //     }
                             if (gst.length == null || gst.length == 0){
                                 for (var i = 0; i <= data.success.length - 1; ++i){
-                                    console.log(data.success[i],"this");
+                                    // console.log(data.success[i],"this");
                                     t_body.innerHTML += `
                                     <tr>
                                         <th id="gstin_${i}" scope="row">${data.success[i]['GSTIN']}</th>
