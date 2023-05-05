@@ -25,5 +25,5 @@ def gst_number_check(request):
     return render(request, 'gst/check_number.html')
 
 @login_required()
-def gstr_merge_excel():
+def gstr_2a_merge_excel():
     pass
