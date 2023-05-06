@@ -17,10 +17,10 @@
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                   <li><a class="dropdown-item" href="{% url 'gst:gst_number_check' %}">GST Number Check</a></li>
                   <li><a class="dropdown-item" href="{% url 'gst:gstr_2a_merge_excel' %}">GSTR 2A Merge Excel</a></li>
-                  <li><a class="dropdown-item" href="#">GSTR 2B Merge Excel</a></li>
-                  <li><a class="dropdown-item" href="#">GSTR 1 JSON To Excel Converter</a></li>
-                  <li><a class="dropdown-item" href="#">GSTR 2B JSON To Excel Converter</a></li>
-                  <li><a class="dropdown-item" href="#">GSTR 3B PDF To Excel Converter</a></li>
+                  <li><a class="dropdown-item" href="{% url 'gst:gstr_2b_merge_excel' %}">GSTR 2B Merge Excel</a></li>
+                  <li><a class="dropdown-item" href="{% url 'gst:gstr_1_json_to_excel' %}">GSTR 1 JSON To Excel Converter</a></li>
+                  <li><a class="dropdown-item" href="{% url 'gst:gstr_2B_json_to_excel' %}">GSTR 2B JSON To Excel Converter</a></li>
+                  <li><a class="dropdown-item" href="{% url 'gst:gstr_3B_pdf_to_excel' %}">GSTR 3B PDF To Excel Converter</a></li>
                 </ul>
               </li>
               <li class="nav-item">

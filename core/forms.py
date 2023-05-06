@@ -80,3 +80,8 @@ class UploadFileForm(forms.ModelForm):
 class UploadMultipleFileForm(forms.Form):
     file = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
     # files = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+
+
+class UploadSingleFileForm(forms.Form):
+    file = forms.FileField(widget=forms.ClearableFileInput())
+    # files = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))

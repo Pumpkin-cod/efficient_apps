@@ -2,7 +2,8 @@ import os
 import glob
 import pandas as pd
 import numpy as np
-from CONSTANTS2 import R2B_B2B_COL_MAPPING,R2B_B2BA_COL_MAPPING,R2B_CDNR_COL_MAPPING,R2B_CDNRA_COL_MAPPING,R2B_IMPG_COL_MAPPING,R2B_ISD_COL_MAPPING
+
+from utilities.CONSTANTS2 import R2B_B2B_COL_MAPPING,R2B_B2BA_COL_MAPPING,R2B_CDNR_COL_MAPPING,R2B_CDNRA_COL_MAPPING,R2B_IMPG_COL_MAPPING,R2B_ISD_COL_MAPPING
 
 def validate_files(folder):
     """
@@ -89,6 +90,6 @@ def gstr2b_merge(folder_path):
     return df_all
 
 
-df=gstr2b_merge(r"D:\My Drive\Automation Adda\GENERAL PURPOSE RESOURCES\ALL GST RELATED FILES\GSTR2B EXCEL")
+# df=gstr2b_merge(r"D:\My Drive\Automation Adda\GENERAL PURPOSE RESOURCES\ALL GST RELATED FILES\GSTR2B EXCEL")
 
-df.to_excel("Output.xlsx")
+# df.to_excel("Output.xlsx")

@@ -3,7 +3,7 @@ import warnings
 import json
 from openpyxl import load_workbook
 import os
-from CONSTANTS2 import R1_JSON_COL_MAPPING
+from utilities.CONSTANTS2 import R1_JSON_COL_MAPPING
 
 
 def flatten_dict(dict_obj):
@@ -190,4 +190,4 @@ def gstr1_to_excel(filepath):
 
     return(writer)
 
-gstr1_to_excel(r"C:\Users\Dell\Downloads\returns_11052021_R1_20AAACI1681G3Z1_offline_others_0.json")
+# gstr1_to_excel(r"C:\Users\Dell\Downloads\returns_11052021_R1_20AAACI1681G3Z1_offline_others_0.json")
