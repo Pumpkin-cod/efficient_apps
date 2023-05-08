@@ -1,3 +1,4 @@
+import os
 from django.shortcuts import render
 from django.http import JsonResponse
 from datetime import datetime
@@ -5,6 +6,7 @@ import json
 from core.forms import UploadMultipleFileForm, UploadSingleFileForm
 from helper.string_to_list import string_to_list_converter
 from django.contrib.auth.decorators import login_required
+from pathlib import Path
 # from http import HTTPStatus
 
 from utilities.gst_check import process_gst_list
@@ -43,46 +45,24 @@ def gstr_2a_merge_excel(request):
                     return JsonResponse({"error": "Invalid Input! Please select more than one file to merge"}, status=400)
                 gstr_2a_merge_excel = Gstr2aMergeExcel.objects.all()
                 gstr_2a_files = Gstr2aFiles.objects.all()
-                # file_path("Gstr2aMergeExcel")
-                # date = datetime.now().strftime("%m-%d-%Y-%H-%M-%S")
-                # path = f"upload/Gstr2aMergeExcel/{request.user.id}_{date}/"
-                
-                # isExist = os.path.exists(path)
-                # if isExist == False:
-                #     os.mkdir(path)
+                file_list = []
                 for f in files:
-                    # f_name = f.name.replace(" ", "")
-                    # dyn_folder = f'{request.user.id}_{date}'
-                    # full_path = f'{path}{f_name}'
-                    # inst_file_list = [f_name,path,dyn_folder,"gstr_2a_merge_excel"] #"name": f_name,"path": path}
-                    # get_upload_to(f, inst_file_list)
                     inst_gstr_2a_merge_excel = gstr_2a_merge_excel.create(user = request.user)
-                    gstr_2a_files.create(gstr_2a_merge_excel = inst_gstr_2a_merge_excel, file = f)
+                    file = gstr_2a_files.create(gstr_2a_merge_excel = inst_gstr_2a_merge_excel, file = f)
+                    file_list.append(file)
 
-                return JsonResponse({"success": "Data Stored Successfully"}, status=200)
-                #     output_file = gstr2a_merge(f)
-                #     print(output_file,"outputfile,\n\n\n\n\n\n")
-                # output_file = gstr2a_merge(files)
-                # print(output_file,"outputfile,\n\n\n\n\n\n")
+                file_path_list = []
+                for i in file_list:
+                    file_path_list.append(i.file)
+                output_file = gstr2a_merge(file_path_list)
+                print(output_file,"Merge Output\n\n\n\n\n")
+                return JsonResponse({"success": "Files Merged Successfully"}, status=200)
             else:
                 return JsonResponse({"error":"Invalid Form"}, status=400)
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=500)
     else:
-        form = UploadMultipleFileForm()
-        # try:            
-        #     form = UploadMultipleFileForm(request.POST, request.FILES)
-        #     files = request.FILES.getlist('files')
-        #     # if form.is_valid():
-        #     for f in files:
-        #         print(f,"this------\n\n\n")
-        #         # handle_uploaded_file(f)
-        #     context = {'msg' : '<span style="color: green;">File successfully uploaded</span>'}
-        #     return render(request, "multiple.html", context)
-        #     # else:
-        #     #     form = UploadMultipleFileForm()
-        # except Exception as e:
-        #   return JsonResponse({"error": str(e)}, status=500)  
+        form = UploadMultipleFileForm()  
     return render(request,'gst/gstr_2a_merge_excel.html', {'form': form})
 
 
