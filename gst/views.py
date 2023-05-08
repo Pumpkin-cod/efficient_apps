@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
+from datetime import datetime
 import json
 from core.forms import UploadMultipleFileForm, UploadSingleFileForm
 from helper.string_to_list import string_to_list_converter
@@ -11,7 +12,7 @@ from utilities.gstr1_to_excel import gstr1_to_excel
 from utilities.gstr2a_merge import gstr2a_merge
 from utilities.gstr2b_merge import gstr2b_merge
 from utilities.gstr2b_to_excel import gstr2b_to_excel
-
+from gst.models import Gstr2aFiles, Gstr2aMergeExcel #get_upload_to
 # Create your views here.
 @login_required()
 def gst_number_check(request):
@@ -38,11 +39,31 @@ def gstr_2a_merge_excel(request):
             form = UploadMultipleFileForm(request.POST, request.FILES)
             files = request.FILES.getlist('file')
             if form.is_valid():
-                # for f in files:
+                if len(files) <= 1:
+                    return JsonResponse({"error": "Invalid Input! Please select more than one file to merge"}, status=400)
+                gstr_2a_merge_excel = Gstr2aMergeExcel.objects.all()
+                gstr_2a_files = Gstr2aFiles.objects.all()
+                # file_path("Gstr2aMergeExcel")
+                # date = datetime.now().strftime("%m-%d-%Y-%H-%M-%S")
+                # path = f"upload/Gstr2aMergeExcel/{request.user.id}_{date}/"
+                
+                # isExist = os.path.exists(path)
+                # if isExist == False:
+                #     os.mkdir(path)
+                for f in files:
+                    # f_name = f.name.replace(" ", "")
+                    # dyn_folder = f'{request.user.id}_{date}'
+                    # full_path = f'{path}{f_name}'
+                    # inst_file_list = [f_name,path,dyn_folder,"gstr_2a_merge_excel"] #"name": f_name,"path": path}
+                    # get_upload_to(f, inst_file_list)
+                    inst_gstr_2a_merge_excel = gstr_2a_merge_excel.create(user = request.user)
+                    gstr_2a_files.create(gstr_2a_merge_excel = inst_gstr_2a_merge_excel, file = f)
+
+                return JsonResponse({"success": "Data Stored Successfully"}, status=200)
                 #     output_file = gstr2a_merge(f)
                 #     print(output_file,"outputfile,\n\n\n\n\n\n")
-                output_file = gstr2a_merge(files)
-                print(output_file,"outputfile,\n\n\n\n\n\n")
+                # output_file = gstr2a_merge(files)
+                # print(output_file,"outputfile,\n\n\n\n\n\n")
             else:
                 return JsonResponse({"error":"Invalid Form"}, status=400)
         except Exception as e:
