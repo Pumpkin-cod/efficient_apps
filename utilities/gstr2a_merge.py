@@ -14,25 +14,25 @@ def get_pan_number(x):
         return ''
 
 
-def validate_files(folder):
-    """
-    Validates files in the specified folder, ensuring that all files have a .xlsx extension,
-    the combined size of all files does not exceed 300 MB, and no single file exceeds 30 MB in size.
-    :param folder: The folder containing the files to be validated.
-    :return: None.
-    """
+# def validate_files(folder):
+#     # """
+#     # Validates files in the specified folder, ensuring that all files have a .xlsx extension,
+#     # the combined size of all files does not exceed 300 MB, and no single file exceeds 30 MB in size.
+#     # :param folder: The folder containing the files to be validated.
+#     # :return: None.
+#     # """
     
-    if folder.endswith("xlsx"):
-        folder = os.path.dirname(folder)
+#     # if folder.endswith("xlsx"):
+#     #     folder = os.path.dirname(folder)
     
-    filenames = glob.glob(os.path.join(folder, '*.xlsx'))
-    total_size = sum(os.path.getsize(file) for file in filenames)
-    if any(not file.endswith('.xlsx') for file in filenames):
-        raise ValueError('All files in the folder must have a .xlsx extension')
-    elif total_size > 314572800:
-        raise ValueError('Combined file size for all files is more than 300 MB. Please use smaller files')
-    elif any(os.path.getsize(file) > 31457280 for file in filenames):
-        raise ValueError('Single file size should not exceed 30 MB')
+#     # filenames = glob.glob(os.path.join(folder, '*.xlsx'))
+#     # total_size = sum(os.path.getsize(file) for file in filenames)
+#     # if any(not file.endswith('.xlsx') for file in filenames):
+#     #     raise ValueError('All files in the folder must have a .xlsx extension')
+#     # elif total_size > 314572800:
+#     #     raise ValueError('Combined file size for all files is more than 300 MB. Please use smaller files')
+#     # elif any(os.path.getsize(file) > 31457280 for file in filenames):
+#     #     raise ValueError('Single file size should not exceed 30 MB')
 
 
 def read_excel_files(file_list):

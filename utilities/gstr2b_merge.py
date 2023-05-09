@@ -2,43 +2,44 @@ import os
 import glob
 import pandas as pd
 import numpy as np
+import datetime
 
 from utilities.CONSTANTS2 import R2B_B2B_COL_MAPPING,R2B_B2BA_COL_MAPPING,R2B_CDNR_COL_MAPPING,R2B_CDNRA_COL_MAPPING,R2B_IMPG_COL_MAPPING,R2B_ISD_COL_MAPPING
 
-def validate_files(folder):
-    """
-    Validates files in the specified folder, ensuring that all files have a .xlsx extension,
-    the combined size of all files does not exceed 300 MB, and no single file exceeds 30 MB in size.
-    :param folder: The folder containing the files to be validated.
-    :return: None.
-    """
+# def validate_files(folder):
+#     """
+#     Validates files in the specified folder, ensuring that all files have a .xlsx extension,
+#     the combined size of all files does not exceed 300 MB, and no single file exceeds 30 MB in size.
+#     :param folder: The folder containing the files to be validated.
+#     :return: None.
+#     """
     
-    if folder.endswith("xlsx"):
-        folder = os.path.dirname(folder)
+#     if folder.endswith("xlsx"):
+#         folder = os.path.dirname(folder)
     
-    filenames = glob.glob(os.path.join(folder, '*.xlsx'))
-    total_size = sum(os.path.getsize(file) for file in filenames)
-    if any(not file.endswith('.xlsx') for file in filenames):
-        raise ValueError('All files in the folder must have a .xlsx extension')
-    elif total_size > 314572800:
-        raise ValueError('Combined file size for all files is more than 300 MB. Please use smaller files')
-    elif any(os.path.getsize(file) > 31457280 for file in filenames):
-        raise ValueError('Single file size should not exceed 30 MB')
+#     filenames = glob.glob(os.path.join(folder, '*.xlsx'))
+#     total_size = sum(os.path.getsize(file) for file in filenames)
+#     if any(not file.endswith('.xlsx') for file in filenames):
+#         raise ValueError('All files in the folder must have a .xlsx extension')
+#     elif total_size > 314572800:
+#         raise ValueError('Combined file size for all files is more than 300 MB. Please use smaller files')
+#     elif any(os.path.getsize(file) > 31457280 for file in filenames):
+#         raise ValueError('Single file size should not exceed 30 MB')
 
 
-def read_excel_files(folder_path):
-    excel_files = []
-    for root, dirs, files in os.walk(folder_path):
-        for file in files:
-            print(file)
-            if file.endswith(".xlsx"):
-                file_path = os.path.join(root, file)
-                try:
-                    validate_files(file_path)
-                    excel_files.append(file_path)
-                except ValueError as e:
-                    print(e)
-    return excel_files
+# def read_excel_files(folder_path):
+#     excel_files = []
+#     for root, dirs, files in os.walk(folder_path):
+#         for file in files:
+#             print(file)
+#             if file.endswith(".xlsx"):
+#                 file_path = os.path.join(root, file)
+#                 try:
+#                     validate_files(file_path)
+#                     excel_files.append(file_path)
+#                 except ValueError as e:
+#                     print(e)
+#     return excel_files
 
 
 def process_excel_sheets(filepath,sheet_name,drop_cols,rename_col_mapping):
@@ -50,14 +51,14 @@ def process_excel_sheets(filepath,sheet_name,drop_cols,rename_col_mapping):
     return df
 
 
-def gstr2b_merge(folder_path):
+def gstr2b_merge(file_list):
     """
     Merge all the GSTR2A files in a folder.
 
     :param folder_path: The path to the folder containing the GSTR2A files to be merged.
     :return: A merged Excel file containing all the B2B, B2BA, CDNR, and CDNRA sheets.
     """
-    excel_files = read_excel_files(folder_path)
+    excel_files = file_list
     print(f"The files that will be combined are:\n{excel_files}")
 
     print("We are combining the B2B sheets of all files...")
@@ -87,8 +88,17 @@ def gstr2b_merge(folder_path):
         
     print("The File is ready to download...")
 
-    return df_all
+    # return df_all
+    timestamp=datetime.datetime.now().strftime("%d%m%Y%H%M%S")
 
+    final_file=os.path.join(os.path.dirname(file_list[0]),"Combined_file_"+timestamp+".xlsx")
+    print(final_file)
+    df_all.to_excel(final_file,index=False)
+
+    # return df_all_added
+    return {
+            "all_combined": final_file
+        }
 
 # df=gstr2b_merge(r"D:\My Drive\Automation Adda\GENERAL PURPOSE RESOURCES\ALL GST RELATED FILES\GSTR2B EXCEL")
 
