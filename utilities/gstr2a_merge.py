@@ -35,7 +35,8 @@ def validate_files(folder):
 
 
 def read_excel_files(folder_path):
-    if folder_path.endswith("xlsx"):
+    folder_path=folder_path[0]
+    if folder_path:
         folder_path = os.path.dirname(folder_path)
     excel_files = []
     for root, dirs, files in os.walk(folder_path):

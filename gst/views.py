@@ -52,8 +52,10 @@ def gstr_2a_merge_excel(request):
                     file_list.append(file)
 
                 file_path_list = []
+                BASE_DIR = Path(__file__).resolve().parent.parent
                 for i in file_list:
-                    file_path_list.append(i.file)
+                    file_path_list.append(os.path.join(BASE_DIR, "upload", str(i.file)))
+                print(file_path_list[0],"----Link----")
                 output_file = gstr2a_merge(file_path_list)
                 print(output_file,"Merge Output\n\n\n\n\n")
                 return JsonResponse({"success": "Files Merged Successfully"}, status=200)
