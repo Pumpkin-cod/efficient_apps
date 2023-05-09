@@ -1,12 +1,14 @@
 import os
 from django.shortcuts import render
 from django.http import JsonResponse
+from django.http import FileResponse
 from datetime import datetime
 import json
 from core.forms import UploadMultipleFileForm, UploadSingleFileForm
 from helper.string_to_list import string_to_list_converter
 from django.contrib.auth.decorators import login_required
 from pathlib import Path
+
 # from http import HTTPStatus
 
 from utilities.gst_check import process_gst_list
@@ -58,7 +60,24 @@ def gstr_2a_merge_excel(request):
                 print(file_path_list[0],"----Link----")
                 output_file = gstr2a_merge(file_path_list)
                 print(output_file,"Merge Output\n\n\n\n\n")
-                return JsonResponse({"success": "Files Merged Successfully"}, status=200)
+                working_file_path = output_file.get('all_combined')
+
+                merged_file_path = os.path.abspath(working_file_path)
+                merged_file_name = os.path.basename(merged_file_path)
+
+                # Open the merged file and create a FileResponse
+                merged_file = open(merged_file_path, 'rb')
+                response = FileResponse(merged_file)
+
+                # Set the content type and Content-Disposition header
+                response['Content-Type'] = 'application/octet-stream'
+                response['Content-Disposition'] = 'attachment; filename="%s"' % merged_file_name
+
+                # Reset the file pointer to the beginning of the file
+                merged_file.seek(0)
+
+                return response
+                # return JsonResponse({"success": "Files Merged Successfully"}, status=200)
             else:
                 return JsonResponse({"error":"Invalid Form"}, status=400)
         except Exception as e:
