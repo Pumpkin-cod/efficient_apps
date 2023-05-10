@@ -81,8 +81,9 @@
                 },
                 success: function (data) {
                     $('#gst_table').show();
-                    console.log(data.success[0]);
-                    if (data.success.length > 0){
+                    console.log(data.success);
+                    // if (data.success.length > 0){
+                       if (Object.keys(data.success).length > 0){
                             var gst = $('#gstin_0');
                             // for (var j = 0; j <= data.success.length - 1; ++j){
                             //     document.getElementById(`gstin_${j}`).remove();
@@ -91,16 +92,25 @@
                             //     document.getElementById(`gst_type_${j}`).remove();
                             //     }
                             if (gst.length == null || gst.length == 0){
-                                for (var i = 0; i <= data.success.length - 1; ++i){
-                                    // console.log(data.success[i],"this");
+                                // for (var i = 0; i <= data.success.length - 1; ++i){
+ 
+                                   for (var i = 0; i < Object.keys(data.success['GSTIN']).length; ++i){
                                     t_body.innerHTML += `
                                     <tr>
-                                        <th id="gstin_${i}" scope="row">${data.success[i]['GSTIN']}</th>
-                                        <td id="validity_${i}">${data.success[i]['Validity']}</td>
-                                        <td id="pan_number_${i}">${data.success[i]['PAN Number']}</td>
-                                        <td id="gst_type_${i}">${data.success[i]['GST Type']}</td>
+                                        <th id="gstin_${i}" scope="row">${data.success['GSTIN'][i]}</th>
+                                        <td id="validity_${i}">${data.success['Validity'][i]}</td>
+                                        <td id="pan_number_${i}">${data.success['PAN Number'][i]}</td>
+                                        <td id="gst_type_${i}">${data.success['GST Type'][i]}</td>
                                     </tr>
                                     `
+                                    // t_body.innerHTML += `
+                                    // <tr>
+                                    //     <th id="gstin_${i}" scope="row">${data.success[i]['GSTIN']}</th>
+                                    //     <td id="validity_${i}">${data.success[i]['Validity']}</td>
+                                    //     <td id="pan_number_${i}">${data.success[i]['PAN Number']}</td>
+                                    //     <td id="gst_type_${i}">${data.success[i]['GST Type']}</td>
+                                    // </tr>
+                                    // `
                                 }
                             } 
                     }
