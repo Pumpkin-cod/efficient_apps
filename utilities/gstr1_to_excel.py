@@ -88,6 +88,7 @@ def rename_r1_columns(dataframe):
     
     return df_copy
 
+
 def gstr_table_wise(i,data,filepath,name):
     table_data = data[i]
     dic_table = expand_list(table_data)
@@ -102,6 +103,7 @@ def gstr_table_wise(i,data,filepath,name):
     df["Json File Name"] = filepath
                 
     return df
+
 
 def gstr1_to_excel(filepath):
 

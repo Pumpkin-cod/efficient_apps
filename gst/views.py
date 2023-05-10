@@ -16,7 +16,7 @@ from utilities.gstr1_to_excel import gstr1_to_excel
 from utilities.gstr2a_merge import gstr2a_merge
 from utilities.gstr2b_merge import gstr2b_merge
 from utilities.gstr2b_to_excel import gstr2b_to_excel
-from gst.models import Gstr1JsonToExcel, Gstr2aFiles, Gstr2aMergeExcel, Gstr2bFiles, Gstr2bMergeExcel #get_upload_to
+from gst.models import Gstr1JsonToExcel, Gstr2aFiles, Gstr2aMergeExcel, Gstr2bFiles, Gstr2bJsonToExcel, Gstr2bMergeExcel #get_upload_to
 # Create your views here.
 @login_required()
 def gst_number_check(request):
@@ -184,23 +184,42 @@ def gstr_1_json_to_excel(request):
 @login_required()
 def gstr_2B_json_to_excel(request):
     form = ""
+    form = ""
     if request.method == 'POST':
         try:
             form = UploadSingleFileForm(request.POST, request.FILES)
             files = request.FILES.getlist('file')
             print(files,"this--\n\n\n\n")
             if form.is_valid():
-                # for f in files:
-                #     output_file = gstr2a_merge(f)
-                #     print(output_file,"outputfile,\n\n\n\n\n\n")
-                output_file = gstr2b_to_excel(files)
-                print(output_file,"outputfile,\n\n\n\n\n\n")
+                gstr_2b_json_to_excel = Gstr2bJsonToExcel.objects.create(user=request.user,file=files[0])
+                BASE_DIR = Path(__file__).resolve().parent.parent
+                file_path = os.path.join(BASE_DIR, "upload", str(gstr_2b_json_to_excel.file))
+                print(file_path,"file_path\n\n\n\n\n")
+                output_file = gstr2b_to_excel(file_path)
+                print(output_file,"Merge Output\n\n\n\n\n")
+                working_file_path = output_file.get('all_combined')
+
+                merged_file_path = os.path.abspath(working_file_path)
+                merged_file_name = os.path.basename(merged_file_path)
+
+                # Open the merged file and create a FileResponse
+                merged_file = open(merged_file_path, 'rb')
+                response = FileResponse(merged_file)
+
+                # Set the content type and Content-Disposition header
+                response['Content-Type'] = 'application/octet-stream'
+                response['Content-Disposition'] = 'attachment; filename="%s"' % merged_file_name
+
+                # Reset the file pointer to the beginning of the file
+                merged_file.seek(0)
+
+                return response
             else:
                 return JsonResponse({"error":"Invalid Form"}, status=400)
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=500)
     else:
-        form = UploadSingleFileForm() 
+        form = UploadSingleFileForm()  
     return render(request,'gst/gstr_2B_json_to_excel.html', {'form': form})
 
 
