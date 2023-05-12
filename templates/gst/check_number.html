@@ -42,12 +42,12 @@
     <div id="gst_table">
         <table id="myTable" class="display">
             <thead>
-                <tr>
+                <!-- <tr>
                     <th>GSTIN</th>
                     <th>Validity</th>
                     <th>PAN Number</th>
                     <th>GST Type</th>
-                </tr>
+                </tr> -->
             </thead>
             <tbody id="t_body">
                 <!-- <tr>
@@ -68,6 +68,7 @@
 {% block script %}
     <script>
         $('#gst_table').hide();
+        var dataSet = [];
     </script>
     <script>
         const check_gst_number = () =>{
@@ -86,8 +87,8 @@
                         if (Object.keys(data.success).length > 0){
                             var gst = $('#gstin_0');
                             const table_body = document.getElementById('t_body');
-                            console.log(table_body,"this----");
-                            $('.odd').remove();
+                            // console.log(table_body,"this----");
+                            // $('.odd').remove();
                             
                             // for (var j = 0; j <= data.success.length - 1; ++j){
                             //     document.getElementById(`gstin_${j}`).remove();
@@ -98,29 +99,43 @@
                             if (gst.length == null || gst.length == 0){
                                 // for (var i = 0; i <= data.success.length - 1; ++i){
  
-                                   for (var i = 0; i < Object.keys(data.success['GSTIN']).length; ++i){
+                                for (var i = 0; i < Object.keys(data.success['GSTIN']).length; ++i){
                                     // ------------
-                                    t_body.innerHTML += `
-                                    <tr>
-                                        <th id="gstin_${i}" scope="row">${data.success['GSTIN'][i]}</th>
-                                        <td id="validity_${i}">${data.success['Validity'][i]}</td>
-                                        <td id="pan_number_${i}">${data.success['PAN Number'][i]}</td>
-                                        <td id="gst_type_${i}">${data.success['GST Type'][i]}</td>
-                                    </tr>
-                                    `
-                                    // ----------------------------------
+                                    var evenOrodd;
+                                    if (i%2 == 0){
+                                        evenOrodd = 'even'
+                                    }else{
+                                        evenOrodd = 'odd'
+                                    }
                                     // t_body.innerHTML += `
-                                    // <tr>
-                                    //     <th id="gstin_${i}" scope="row">${data.success[i]['GSTIN']}</th>
-                                    //     <td id="validity_${i}">${data.success[i]['Validity']}</td>
-                                    //     <td id="pan_number_${i}">${data.success[i]['PAN Number']}</td>
-                                    //     <td id="gst_type_${i}">${data.success[i]['GST Type']}</td>
+                                    // <tr class="${evenOrodd}">
+                                    //     <td id="gstin_${i}" class="sorting_1">${data.success['GSTIN'][i]}</td>
+                                    //     <td id="validity_${i}">${data.success['Validity'][i]}</td>
+                                    //     <td id="pan_number_${i}">${data.success['PAN Number'][i]}</td>
+                                    //     <td id="gst_type_${i}">${data.success['GST Type'][i]}</td>
                                     // </tr>
                                     // `
-                                }
-                            } 
+
+                                    dataSet.push(
+                                        [   
+                                            data.success['GSTIN'][i],
+                                            data.success['Validity'][i],
+                                            data.success['PAN Number'][i],
+                                            data.success['GST Type'][i]
+                                        ]
+                                    )
+                                } 
+                            }  
                         }
-                
+                        $('#myTable').DataTable({
+                                data: dataSet,
+                                columns: [
+                                    { title: 'GSTIN' },
+                                    { title: 'Validity' },
+                                    { title: 'PAN Number' },
+                                    { title: 'GST Type' },
+                                ],
+                        });
                 },
                 error: function (data) {
                     $('#gst_table').hide();
@@ -132,10 +147,5 @@
                 }
             })
         }
-    </script>
-    <script>
-        $(document).ready( function () {
-            $('#myTable').DataTable();
-        });
     </script>
 {% endblock script %}
