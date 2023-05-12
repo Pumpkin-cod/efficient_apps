@@ -43,11 +43,14 @@ from utilities.CONSTANTS2 import R2B_B2B_COL_MAPPING,R2B_B2BA_COL_MAPPING,R2B_CD
 
 
 def process_excel_sheets(filepath,sheet_name,drop_cols,rename_col_mapping):
-    df=pd.read_excel(filepath,sheet_name =sheet_name)
-    df =df.drop(drop_cols)
-    df.rename(rename_col_mapping,axis=1,inplace=True)
-    df['GSTR2B_Table']=sheet_name
-    df['File_Name']=os.path.basename(filepath)
+    try:
+        df=pd.read_excel(filepath,sheet_name =sheet_name)
+        df =df.drop(drop_cols)
+        df.rename(rename_col_mapping,axis=1,inplace=True)
+        df['GSTR2B_Table']=sheet_name
+        df['File_Name']=os.path.basename(filepath)
+    except:
+        df=pd.DataFrame()
     return df
 
 
@@ -58,11 +61,20 @@ def gstr2b_merge(file_list):
     :param folder_path: The path to the folder containing the GSTR2A files to be merged.
     :return: A merged Excel file containing all the B2B, B2BA, CDNR, and CDNRA sheets.
     """
+    
+    df_b2b=pd.DataFrame()
+    df_b2ba=pd.DataFrame()
+    df_cdnr=pd.DataFrame()
+    df_cdnra=pd.DataFrame()
+    df_isd=pd.DataFrame()
+    df_impg=pd.DataFrame()
+
     excel_files = file_list
     print(f"The files that will be combined are:\n{excel_files}")
 
     print("We are combining the B2B sheets of all files...")
     df_b2b = pd.concat([process_excel_sheets(file, "B2B", [0, 1, 2, 3, 4],R2B_B2B_COL_MAPPING) for file in excel_files])
+
     
     print("We are combining the B2BA sheets of all files...")
     df_b2ba = pd.concat([process_excel_sheets(file, "B2BA", [0, 1, 2, 3, 4, 5],R2B_B2BA_COL_MAPPING) for file in excel_files])
@@ -78,20 +90,19 @@ def gstr2b_merge(file_list):
     
     print("We are combining the IMPG sheets of all files...")
     df_impg = pd.concat([process_excel_sheets(file, "IMPG", [0, 1, 2, 3, 4],R2B_B2BA_COL_MAPPING) for file in excel_files])
-
    
     all_sheets = [df_b2b, df_b2ba, df_cdnr, df_cdnra,df_isd,df_impg]
     
     print("Merging all the sheets created...")
     df_all = pd.concat(all_sheets)
-    df_all.reset_index(inplace=True, drop=True)
+    # df_all.reset_index(inplace=True, drop=True)
         
     print("The File is ready to download...")
 
     # return df_all
     timestamp=datetime.datetime.now().strftime("%d%m%Y%H%M%S")
 
-    final_file=os.path.join(os.path.dirname(file_list[0]),"Combined_file_"+timestamp+".xlsx")
+    final_file=os.path.join(os.path.dirname(file_list[0]),"GSTR2B_Combined_file_"+timestamp+".xlsx")
     print(final_file)
     df_all.to_excel(final_file,index=False)
 
