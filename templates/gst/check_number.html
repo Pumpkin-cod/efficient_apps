@@ -50,12 +50,12 @@
                 </tr>
             </thead>
             <tbody id="t_body">
-                <tr>
+                <!-- <tr>
                     <td id="gstin"></td>
                     <td id="validity"></td>
                     <td id="pan_number"></td>
                     <td id="gst_type"></td>
-                </tr>
+                </tr> -->
             </tbody>
         </table>
     </div>
@@ -83,8 +83,12 @@
                     $('#gst_table').show();
                     console.log(data.success);
                     // if (data.success.length > 0){
-                       if (Object.keys(data.success).length > 0){
+                        if (Object.keys(data.success).length > 0){
                             var gst = $('#gstin_0');
+                            const table_body = document.getElementById('t_body');
+                            console.log(table_body,"this----");
+                            $('.odd').remove();
+                            
                             // for (var j = 0; j <= data.success.length - 1; ++j){
                             //     document.getElementById(`gstin_${j}`).remove();
                             //     document.getElementById(`validity_${j}`).remove();
@@ -95,6 +99,7 @@
                                 // for (var i = 0; i <= data.success.length - 1; ++i){
  
                                    for (var i = 0; i < Object.keys(data.success['GSTIN']).length; ++i){
+                                    // ------------
                                     t_body.innerHTML += `
                                     <tr>
                                         <th id="gstin_${i}" scope="row">${data.success['GSTIN'][i]}</th>
@@ -103,6 +108,7 @@
                                         <td id="gst_type_${i}">${data.success['GST Type'][i]}</td>
                                     </tr>
                                     `
+                                    // ----------------------------------
                                     // t_body.innerHTML += `
                                     // <tr>
                                     //     <th id="gstin_${i}" scope="row">${data.success[i]['GSTIN']}</th>
@@ -113,7 +119,8 @@
                                     // `
                                 }
                             } 
-                    }
+                        }
+                
                 },
                 error: function (data) {
                     $('#gst_table').hide();
