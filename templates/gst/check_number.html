@@ -29,7 +29,8 @@
         <!-- </div> -->
         <div class="row sectionThree_gst_chck_num mt-5 ms-5 me-5">
             <div class="col-sm-6 mb-2">
-                <button type="button" onclick="check_gst_number()" class="btn btn-primary col-12">SUBMIT</button>
+                <button id="submit_btn" type="button" onclick="check_gst_number()" class="btn btn-primary col-12">SUBMIT</button>
+                <button id="clear_btn" type="button" onclick="reload_page()" class="btn btn-danger col-12">CLEAR</button>
             </div>
         </div>
     {% if summary_file_path %}
@@ -68,6 +69,7 @@
 {% block script %}
     <script>
         $('#gst_table').hide();
+        $('#clear_btn').hide();
         var dataSet = [];
     </script>
     <script>
@@ -85,36 +87,19 @@
                     console.log(data.success);
                     // if (data.success.length > 0){
                         if (Object.keys(data.success).length > 0){
+                            $('#submit_btn').hide();
+                            $('#clear_btn').show();
                             var gst = $('#gstin_0');
                             const table_body = document.getElementById('t_body');
-                            // console.log(table_body,"this----");
-                            // $('.odd').remove();
-                            
-                            // for (var j = 0; j <= data.success.length - 1; ++j){
-                            //     document.getElementById(`gstin_${j}`).remove();
-                            //     document.getElementById(`validity_${j}`).remove();
-                            //     document.getElementById(`pan_number_${j}`).remove();
-                            //     document.getElementById(`gst_type_${j}`).remove();
-                            //     }
                             if (gst.length == null || gst.length == 0){
-                                // for (var i = 0; i <= data.success.length - 1; ++i){
- 
                                 for (var i = 0; i < Object.keys(data.success['GSTIN']).length; ++i){
-                                    // ------------
+
                                     var evenOrodd;
                                     if (i%2 == 0){
                                         evenOrodd = 'even'
                                     }else{
                                         evenOrodd = 'odd'
                                     }
-                                    // t_body.innerHTML += `
-                                    // <tr class="${evenOrodd}">
-                                    //     <td id="gstin_${i}" class="sorting_1">${data.success['GSTIN'][i]}</td>
-                                    //     <td id="validity_${i}">${data.success['Validity'][i]}</td>
-                                    //     <td id="pan_number_${i}">${data.success['PAN Number'][i]}</td>
-                                    //     <td id="gst_type_${i}">${data.success['GST Type'][i]}</td>
-                                    // </tr>
-                                    // `
 
                                     dataSet.push(
                                         [   
@@ -146,6 +131,11 @@
                     })
                 }
             })
+        }
+    </script>
+    <script>
+        const reload_page = () =>{
+            window.location.reload();
         }
     </script>
 {% endblock script %}
