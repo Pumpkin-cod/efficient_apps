@@ -23,6 +23,7 @@ def index(request: HttpRequest) -> HttpResponse:
 
 @login_required()
 def gstr_home(request: HttpRequest, working_file_path=None, summary_file_path=None) -> HttpResponse:
+    print(working_file_path,"working_file_path123---\n\n\n\n") 
     is_upload = False
     file_path_1=None
     file_path_2=None
@@ -71,7 +72,10 @@ def reconcile(request, file_1, file_2):
             working_file_path = result.get('working')
             summary_file_path = result.get('summary')
             messages.success(request, "Reconcile done!!!")
-            return redirect('core:gstr_home_with_path', summary_file_path=summary_file_path)
+            print(working_file_path,"working_file_path-first")
+            print(summary_file_path,"summary_file_path-first","\n\n\n\n\n\n")
+            # return redirect('core:gstr_home_with_path', summary_file_path=summary_file_path)
+            return redirect('core:gstr_home_with_path', working_file_path=working_file_path)
         except Exception as e:
             print(e)
             messages.error(request, "Something went wrong while reconciling!!!")
@@ -85,6 +89,7 @@ def download_file(request, file_full_path):
     # file_full_path = os.path.join(settings.MEDIA_ROOT, file_path)
     if os.path.exists(file_full_path):
         with open(file_full_path, 'rb') as fh:
+            print(download,"/////////////////////////////////////////////////////////\n\n\n\n")
             response = HttpResponse(fh.read(), content_type='application/vnd.ms-excel')
             response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_full_path)
             return response
