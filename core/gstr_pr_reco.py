@@ -224,7 +224,7 @@ def extract_pan(gst_no):
 
 
 
-def download(pth=os.getcwd()):
+def download(pth):
 
 
 
@@ -263,7 +263,7 @@ def download(pth=os.getcwd()):
     
 
 
-    fullpath1 = pth + "\\" + "Formats.xlsx"
+    fullpath1 = os.path.join(pth,"Formats.xlsx")
     print(f"The path selected is {fullpath1}")
 
     # writer = pd.ExcelWriter(fullpath1, engine='xlsxwriter', options={'strings_to_formulas': True}) #BOB COMMENTED THIS
