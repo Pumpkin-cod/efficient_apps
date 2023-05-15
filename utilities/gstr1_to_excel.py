@@ -130,6 +130,11 @@ def gstr1_to_excel(filepath):
         data = json.load(json_file)
 
     dic_keys = data.keys
+
+    df_b2b=pd.DataFrame()
+    df_b2cl=pd.DataFrame()
+    df_cdnr=pd.DataFrame()
+    df_exp=pd.DataFrame()
     
     df_all_combined=pd.DataFrame()
 
@@ -190,6 +195,7 @@ def gstr1_to_excel(filepath):
     
     print("Consolidating All Major Tables in Single Sheet for you..!!")   
     
+    df_all_combined=pd.concat([df_b2b,df_b2cl,df_cdnr,df_exp])
     df_all_combined=rename_r1_columns(df_all_combined)
 
     df_all_combined.to_excel(writer, sheet_name="effcorp_all_combined", index=False)

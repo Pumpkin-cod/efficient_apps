@@ -154,7 +154,7 @@ def gstr2a_merge(file_list):
 
     timestamp=datetime.datetime.now().strftime("%d%m%Y%H%M%S")
 
-    final_file=os.path.join(os.path.dirname(file_list[0]),"Combined_file_"+timestamp+".xlsx")
+    final_file=os.path.join(os.path.dirname(file_list[0]),"GSTR2A_Combined_file_"+timestamp+".xlsx")
     print(final_file)
     df_all_added.to_excel(final_file,index=False)
 
