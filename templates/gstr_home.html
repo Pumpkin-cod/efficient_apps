@@ -35,18 +35,18 @@
                     </div>
                     <div>
                         <div>
-                            <label for="GSTR2A">GSTR2A</label>
+                            <label for="GSTR2A-Combined">GSTR2A-Combined</label>
                         </div>
-                        {% comment %} <input class="mb-10" type="file" id="GSTR2A" required> {% endcomment %}
+                        {% comment %} <input class="mb-10" type="file" id="GSTR2A-Combined" required> {% endcomment %}
                         {{ form.file_2}}
                     </div>
                 </div>
                 <div class="flex-container">
-                    <button type="submit" class="mb-10">UPLOAD</button>
+                    <button type="submit" class="mb-10">UPLOAD FILES</button>
                     {% if is_upload %}
                     <a href="{% url 'core:reconcile' file_path_1 file_path_2 %}" class="text-center reconcile">RECONCILE</a>
                     {% else %}
-                    <a class="text-center">RECONCILE</a>
+                    <a class="text-center">RECONCILE FILES</a>
                     {% endif %}
                 </div>
             </form>
