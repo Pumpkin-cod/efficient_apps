@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Imprima&display=swap');
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body{
+    font-family: 'Imprima', sans-serif;
+}
+
+.big-container {
+	display: flex;
+    flex-direction: row;
+    height: 80vh;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.img-container {
+	width: 50%;
+    height: 73vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #13824d;
+    margin-top: 9rem;
+    margin-bottom: 6rem;
+    margin-left: 2rem;
+    margin-right: 8rem;
+}
+
+.img-blush {
+	height: 10rem;
+	width: auto;
+}
+
+.container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+h2{
+    color: #4AB7E7;
+    margin-left: 12rem;
+
+    font-family: 'Imprima', sans-serif;
+}
+
+.login-form {
+	width: 80%;
+    height: auto;
+	padding: 20px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background-color: #fff;
+    margin-left: 14rem;
+}
+
+.login-form label {
+	display: block;
+	margin-bottom: 10px;
+    color: #4AB7E7;
+}
+
+.login-form input[type='text'],
+.login-form input[type='email'],
+.login-form input[type='password'] {
+	width: 100%;
+	padding: 10px;
+	border: 1px solid #13824D;
+	border-radius: 4px;
+	margin-bottom: 20px;
+}
+
+.login-form button {
+	width: 100%;
+	padding: 10px;
+	border: none;
+	border-radius: 4px;
+	background-color: #f4b639;
+	color: #fff;
+	cursor: pointer;
+    font-size: 1.5rem;
+}
+
+.login-form button:hover {
+	background-color: #13824d;
+}
+
+.login-form .additional-options {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.login-form .additional-options .remember-me {
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+  
+}
+
+.login-form .additional-options .remember-me input[type="checkbox"] {
+  margin-right: 0.5rem;
+  margin-bottom: 7px;
+}
+
+.login-form .additional-options .forgot-password {
+  margin-left: auto;
+}
+
+.signup-link{
+    text-align: center;
+    padding-top: 0.875rem;
+    color: #4AB7E7;
+}
