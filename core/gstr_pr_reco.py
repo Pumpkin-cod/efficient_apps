@@ -389,7 +389,7 @@ def reco_itr_2a(files_itr,files_con2a,tol_limit=100):
 
     pth = os.path.dirname(str(files_con2a))
     
-    fullpath1 = pth + "/" + EXPORT_WORKING_NAME
+    fullpath1 = pth + EXPORT_WORKING_NAME # "/" + 
     
     # writer = pd.ExcelWriter(fullpath1, engine='xlsxwriter', options={'strings_to_formulas': True})
     writer = pd.ExcelWriter(fullpath1, engine='xlsxwriter', engine_kwargs={'options': {'strings_to_formulas': True}})

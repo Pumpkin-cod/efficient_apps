@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} GST -  Check Number {% endblock title %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/gstr.css' %}">
+{% endblock css %}
+{% block content %}
+
+<div class="container">
+    {% include 'header.html' %}
+    <!-- <div class="mt-5 ps-5 pe-5">
+       <a href="{% url 'core:download_sample_file' %}"><button type="button" class="btn col-12 sample-btn">Click this button to download sample files to test application</button></a>
+    </div> -->
+        {% csrf_token %}
+        <div class="row sectionTwo_gst_chck_num bg-primary mt-5 p-4 rounded-5">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <div class="col-6">
+                        <div>
+                            <label for="GST">Enter GST Number</label>
+                        </div>
+                        <div class="form-group mt-2">
+                            <textarea class="form-control" rows="5" id="GST"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- </div> -->
+        <div class="row sectionThree_gst_chck_num mt-5 ms-5 me-5">
+            <div class="col-sm-6 mb-2">
+                <button id="submit_btn" type="button" onclick="check_gst_number()" class="btn btn-primary col-12">SUBMIT</button>
+                <button id="clear_btn" type="button" onclick="reload_page()" class="btn btn-danger col-12">CLEAR</button>
+            </div>
+        </div>
+    {% if summary_file_path %}
+    <div class="ms-5 me-5 mt-5">
+       <a href="{% url 'core:download_file' summary_file_path %}"><button type="button" class="btn col-12 sample-btn">Download summary file</button></a>
+    </div>
+    {% endif %}
+    
+    <!-- Data Table -->
+    <div id="gst_table">
+        <table id="myTable" class="display">
+            <thead>
+                <!-- <tr>
+                    <th>GSTIN</th>
+                    <th>Validity</th>
+                    <th>PAN Number</th>
+                    <th>GST Type</th>
+                </tr> -->
+            </thead>
+            <tbody id="t_body">
+                <!-- <tr>
+                    <td id="gstin"></td>
+                    <td id="validity"></td>
+                    <td id="pan_number"></td>
+                    <td id="gst_type"></td>
+                </tr> -->
+            </tbody>
+        </table>
+    </div>
+    <!-- End Data Table -->
+
+</div>
+{% include 'footer.html' %}
+
+{% endblock content %} 
+{% block script %}
+    <script>
+        $('#gst_table').hide();
+        $('#clear_btn').hide();
+        var dataSet = [];
+    </script>
+    <script>
+        const check_gst_number = () =>{
+            const gst_numbers = $('#GST').val();
+            $.ajax({
+                type:"POST",
+                url: "{% url 'gst:gst_number_check' %}",
+                data: {
+                    csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+                    gst_numbers
+                },
+                success: function (data) {
+                    $('#gst_table').show();
+                    console.log(data.success);
+                    // if (data.success.length > 0){
+                        if (Object.keys(data.success).length > 0){
+                            $('#submit_btn').hide();
+                            $('#clear_btn').show();
+                            var gst = $('#gstin_0');
+                            const table_body = document.getElementById('t_body');
+                            if (gst.length == null || gst.length == 0){
+                                for (var i = 0; i < Object.keys(data.success['GSTIN']).length; ++i){
+
+                                    var evenOrodd;
+                                    if (i%2 == 0){
+                                        evenOrodd = 'even'
+                                    }else{
+                                        evenOrodd = 'odd'
+                                    }
+
+                                    dataSet.push(
+                                        [   
+                                            data.success['GSTIN'][i],
+                                            data.success['Validity'][i],
+                                            data.success['PAN Number'][i],
+                                            data.success['GST Type'][i]
+                                        ]
+                                    )
+                                } 
+                            }  
+                        }
+                        $('#myTable').DataTable({
+                                data: dataSet,
+                                columns: [
+                                    { title: 'GSTIN' },
+                                    { title: 'Validity' },
+                                    { title: 'PAN Number' },
+                                    { title: 'GST Type' },
+                                ],
+                        });
+                },
+                error: function (data) {
+                    $('#gst_table').hide();
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: data.responseJSON.error,
+                    })
+                }
+            })
+        }
+    </script>
+    <script>
+        const reload_page = () =>{
+            window.location.reload();
+        }
+    </script>
+{% endblock script %}

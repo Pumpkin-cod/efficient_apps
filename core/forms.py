@@ -75,3 +75,13 @@ class UploadFileForm(forms.ModelForm):
             'file_1': forms.widgets.FileInput(attrs={'accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'}),
             'file_2': forms.widgets.FileInput(attrs={'accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'})
         }
+
+
+class UploadMultipleFileForm(forms.Form):
+    file = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+    # files = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+
+
+class UploadSingleFileForm(forms.Form):
+    file = forms.FileField(widget=forms.ClearableFileInput())
+    # files = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))

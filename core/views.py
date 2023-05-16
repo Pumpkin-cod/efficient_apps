@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.http import HttpRequest, HttpResponse, FileResponse, Http404
 from django.contrib.auth.decorators import login_required
+import pandas
 
 from .forms import UserCreationForm, UserAuthenticationForm, UploadFileForm
 from .gstr_pr_reco import reco_itr_2a, download
@@ -22,7 +23,11 @@ def index(request: HttpRequest) -> HttpResponse:
 
 
 @login_required()
-def gstr_home(request: HttpRequest, working_file_path=None, summary_file_path=None) -> HttpResponse:
+def gstr_home(request: HttpRequest, working_file_path=None, summary_file_path=None) -> HttpResponse: 
+
+    if summary_file_path:
+        excel_data_df = pandas.read_excel(summary_file_path)
+        summary_file = excel_data_df.to_json()
     is_upload = False
     file_path_1=None
     file_path_2=None
@@ -31,8 +36,6 @@ def gstr_home(request: HttpRequest, working_file_path=None, summary_file_path=No
         form = UploadFileForm(request.POST, request.FILES)
         file_1 = request.FILES.get('file_1')
         file_2 = request.FILES.get('file_2')
-        print(file_1)
-        print(file_2)
         if form.is_valid():
             instance = form.save(commit=False)
             instance.user = request.user
@@ -56,6 +59,7 @@ def gstr_home(request: HttpRequest, working_file_path=None, summary_file_path=No
     context = {"form": form,
                 "working_file_path":working_file_path,
                 "summary_file_path":summary_file_path,
+                "summary_file": summary_file if summary_file_path else None,
                 "is_upload":is_upload,
                 "file_path_1":file_path_1,
                 "file_path_2":file_path_2
@@ -71,7 +75,10 @@ def reconcile(request, file_1, file_2):
             working_file_path = result.get('working')
             summary_file_path = result.get('summary')
             messages.success(request, "Reconcile done!!!")
-            return redirect('core:gstr_home_with_path', summary_file_path=summary_file_path)
+            print(working_file_path,"working_file_path-first")
+            print(summary_file_path,"summary_file_path-first","\n\n\n\n\n\n")
+            # return redirect('core:gstr_home_with_path', summary_file_path=summary_file_path)
+            return redirect('core:gstr_home_with_path', working_file_path, summary_file_path)
         except Exception as e:
             print(e)
             messages.error(request, "Something went wrong while reconciling!!!")

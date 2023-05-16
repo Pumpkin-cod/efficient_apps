@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block title %} GST - 1 JSON To Excel {% endblock title %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/gstr.css' %}">
+{% endblock css %}
+{% block content %}
+
+<div class="container">
+    
+    {% include 'header.html' %}
+    <form method="post" action="{% url 'gst:gstr_1_json_to_excel' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row sectionTwo_gst_chck_num bg-primary mt-5 p-4 rounded-5">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <div class="col-6">
+                        <div>
+                            <label for="GST">Select Json File To Convert To Excel</label>
+                        </div>
+                        <div class="form-group mt-2">
+                            {{ form.file }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- </div> -->
+        <div class="row sectionThree_gst_chck_num mt-5 ms-5 me-5">
+            <div class="col-sm-6 mb-2">
+                <button type="submit" class="btn btn-primary col-12" value="Upload">SUBMIT</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% include 'footer.html' %}
+
+{% endblock content %} 
