@@ -58,6 +58,26 @@
     </div>
     {% endif %}
 </div>
+{% if summary_file %}
+<table id="myTable" class="display">
+    <thead>
+        <tr>
+            <th>Column 1</th>
+            <th>Column 2</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Row 1 Data 1</td>
+            <td>Row 1 Data 2</td>
+        </tr>
+        <tr>
+            <td>Row 2 Data 1</td>
+            <td>Row 2 Data 2</td>
+        </tr>
+    </tbody>
+</table>
+{% endif %}
 {% include 'footer.html' %}
 {% comment %} <a href="/logout">Logout</a> ||
 <a href="/">Home</a>
@@ -83,9 +103,16 @@
     <br/>
     <a href="{% url 'core:download_sample_file' %}"><button>Click this button to download sample files to test application</button></a><br/>
 
-   {% if summary_file_path and working_file_path %}
+    {% if summary_file_path and working_file_path %}
         <a href="{% url 'core:download_file' summary_file_path %}">Download summary file</a><br/>
         <a href="{% url 'core:download_file' working_file_path %}">Download working file</a>
     {% endif %} 
 </main> {% endcomment %}
+{% block script %}
+    <script>
+        $(document).ready( function () {
+            $('#myTable').DataTable();
+        } );
+    </script>
+{% endblock script %}
 {% endblock content %} 
