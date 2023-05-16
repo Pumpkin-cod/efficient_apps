@@ -3,8 +3,8 @@ import warnings
 import json
 from openpyxl import load_workbook
 import os
-from CONSTANTS2 import R2B_JSON_COL_MAPPING
-from gstr1_to_excel import flatten_dict, expand_list
+from utilities.CONSTANTS2 import R2B_JSON_COL_MAPPING
+from utilities.gstr1_to_excel import flatten_dict, expand_list
 
 
 def rename_r2b_columns(dataframe):
@@ -14,19 +14,18 @@ def rename_r2b_columns(dataframe):
     
     return df_copy
 
-def gstr_table_wise(i,data,filepath,return_period,rec_gstin):
 
+def gstr_table_wise(i,data,filepath,return_period,rec_gstin):
 
     table_data = data[i]
     dic_table = expand_list(table_data)
     df = pd.DataFrame(dic_table)
-    df = pd.DataFrame(dic_table, index=[0])
-
-
-    # try:
-    #     df = pd.DataFrame(dic_table)
-    # except ValueError:
-    #     df = pd.DataFrame(dic_table, index=[0])
+    # df = pd.DataFrame(dic_table, index=[0])
+    
+    try:
+        df = pd.DataFrame(dic_table)
+    except ValueError:
+        df = pd.DataFrame(dic_table, index=[0])
 
 
     df["GSTR1-Table"] = i
@@ -56,7 +55,7 @@ def gstr2b_to_excel(filepath):
     print(newfile)
 
     print(f"the file {original_name} has been selected... Working on it..!")
-    writer = pd.ExcelWriter(newfile, engine='xlsxwriter', options={'strings_to_formulas': True})
+    writer = pd.ExcelWriter(newfile, engine='xlsxwriter') #, options={'strings_to_formulas': True}
 
     #creating empty dataframe to avoid any error
 
@@ -78,7 +77,7 @@ def gstr2b_to_excel(filepath):
             if i =="b2b":
 
                 print(f"Fetching the {i} data, Please wait for some time...!!")
-                df_b2b=gstr_table_wise(i,main_data,filepath,return_period,rec_gstin)                
+                df_b2b=gstr_table_wise(i,main_data,filepath,return_period,rec_gstin)   
                 df_b2b.to_excel(writer, sheet_name=str(i+'_data'), index=False)
 
             elif i=="b2ba":
@@ -119,12 +118,13 @@ def gstr2b_to_excel(filepath):
 
     print(f"Please Wait...Saving the single final file as {newfile}")
 
-    writer.save()
+    # writer.save()
     writer.close()
 
-    return (writer)
+    # return (writer)
+    return{"all_combined": writer}
 
 
-df=gstr2b_to_excel(r"C:\Users\Dell\Downloads\Json file\CXDPK2766F2ZS_092021_GSTR2B_20220112.json")
+# df=gstr2b_to_excel(r"C:\Users\Dell\Downloads\Json file\CXDPK2766F2ZS_092021_GSTR2B_20220112.json")
 
-df.to_excel("output.xlsx")
+# df.to_excel("output.xlsx")

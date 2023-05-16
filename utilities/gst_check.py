@@ -190,7 +190,7 @@ def process_gst_list(gst_list):
     return df
 
 
-df=process_gst_list("10AAACI1681G1Z4")
+# df=process_gst_list("10AAACI1681G1Z4")
 
-print(df)
+# print(df)
 

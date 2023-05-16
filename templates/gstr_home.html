@@ -1,31 +1,22 @@
 {% extends 'base.html' %}
+
 {% load static %}
+{% block title %} GSTR {% endblock title %}
 {% block css %}
 <link rel="stylesheet" href="{% static 'css/gstr.css' %}">
 {% endblock css %}
 {% block content %}
 
-<main>  
-    <nav class="item">
-        <ul>
-            <li><a href="">GSTR</a></li>
-            <li><a href="{% url 'core:logout' %}">LOGOUT</a></li>
-        </ul>
-    </nav>
-    
-    <section class="item-center">
-        {% if messages %}
-            <div class="notification">
-                    {% for message in messages %}
-                    <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
-                    {% endfor %}
-            </div>
-        {% endif %}
-        <div>
-            <a href="{% url 'core:download_sample_file' %}" class="a-button sample">Click this button to download sample files to test application</a>
-            <form action="" class="" method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div class="flex-container dodger-blue">
+<div class="container">
+    {% include 'header.html' %}
+    <div class="mt-5 ps-5 pe-5">
+       <a href="{% url 'core:download_sample_file' %}"><button type="button" class="btn col-12 sample-btn">Click this button to download sample files to test application</button></a>
+    </div>
+    <form action="" class="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row sectionTwo bg-primary mt-5 ms-5 me-5 p-4 rounded-5">
+            <div class="card col-md-6 bg-light">
+                <div class="card-body">
                     <div>
                         <div>
                             <label for="ITR">ITR</label>
@@ -33,37 +24,61 @@
                         {% comment %} <input class="mb-10" type="file" id="ITR" required> {% endcomment %}
                         {{ form.file_1}}
                     </div>
+                </div>
+            </div>
+            <div class="card col-md-6 bg-light">
+                <div class="card-body">
                     <div>
                         <div>
-                            <label for="GSTR2A-Combined">GSTR2A-Combined</label>
+                            <label for="GSTr2A">GSTr2A</label>
                         </div>
-                        {% comment %} <input class="mb-10" type="file" id="GSTR2A-Combined" required> {% endcomment %}
+                        {% comment %} <input class="mb-10" type="file" id="GSTr2A" required> {% endcomment %}
                         {{ form.file_2}}
                     </div>
                 </div>
-                <div class="flex-container">
-                    <button type="submit" class="mb-10">UPLOAD FILES</button>
-                    {% if is_upload %}
-                    <a href="{% url 'core:reconcile' file_path_1 file_path_2 %}" class="text-center reconcile">RECONCILE</a>
-                    {% else %}
-                    <a class="text-center">RECONCILE FILES</a>
-                    {% endif %}
                 </div>
-            </form>
-            {% if summary_file_path %}
-                <a href="{% url 'core:download_file' summary_file_path %}" class="a-button summary">Download summary file</a>
-            {% endif %}
         </div>
-    </section>
-    <footer class="item"> 
-        &copy; 2023
-    </footer>
-</main>
-
-
-
-
-
+        <!-- </div> -->
+        <div class="row sectionThree mt-5 ms-5 me-5 pe-2 ps-2">
+            <div class="col-sm-6 mb-2">
+                <button type="submit" class="btn btn-primary col-12">UPLOAD</button>
+            </div>
+            <div class="col-sm-6">
+                {% if is_upload %}
+                    <a href="{% url 'core:reconcile' file_path_1 file_path_2 %}"><button type="button" class="btn btn-primary col-12">RECONCILE</button></a>
+                {% else %}
+                    <button type="button" class="btn btn-info col-12">RECONCILE</button>
+                {% endif %}
+            </div>
+        </div>
+    </form>
+    {% if working_file_path %}
+    <div class="ms-5 me-5 mt-5">
+       <a href="{% url 'core:download_file' working_file_path %}"><button type="button" class="btn col-12 sample-btn">Download working file</button></a> <!-- summary_file_path -->
+    </div>
+    {% endif %}
+</div>
+{% if summary_file %}
+<table id="myTable" class="display">
+    <thead>
+        <tr>
+            <th>Column 1</th>
+            <th>Column 2</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Row 1 Data 1</td>
+            <td>Row 1 Data 2</td>
+        </tr>
+        <tr>
+            <td>Row 2 Data 1</td>
+            <td>Row 2 Data 2</td>
+        </tr>
+    </tbody>
+</table>
+{% endif %}
+{% include 'footer.html' %}
 {% comment %} <a href="/logout">Logout</a> ||
 <a href="/">Home</a>
 
@@ -88,9 +103,16 @@
     <br/>
     <a href="{% url 'core:download_sample_file' %}"><button>Click this button to download sample files to test application</button></a><br/>
 
-   {% if summary_file_path and working_file_path %}
+    {% if summary_file_path and working_file_path %}
         <a href="{% url 'core:download_file' summary_file_path %}">Download summary file</a><br/>
         <a href="{% url 'core:download_file' working_file_path %}">Download working file</a>
     {% endif %} 
 </main> {% endcomment %}
+{% block script %}
+    <script>
+        $(document).ready( function () {
+            $('#myTable').DataTable();
+        } );
+    </script>
+{% endblock script %}
 {% endblock content %} 

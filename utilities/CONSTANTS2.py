@@ -1,3 +1,8 @@
+
+
+
+
+
 R2A_B2B_COL_MAPPING={
     'Unnamed: 0': 'GSTIN_of_Supplier', 
     'Unnamed: 1': 'Trade_Name_of_Supplier', 
