@@ -8,7 +8,6 @@ from .validators import ExcelFileValidator
 # Create your models here.
 
 
-
 class UserManager(BaseUserManager):
     """
     Custom user model manager where email is the unique identifiers

@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls')),
     path('gst/', include('gst.urls')),
+    path('file_tools/', include('filetools.urls')),
 ]

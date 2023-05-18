@@ -23,6 +23,40 @@
                   <li><a class="dropdown-item" href="{% url 'gst:gstr_3B_pdf_to_excel' %}">GSTR 3B PDF To Excel Converter</a></li>
                 </ul>
               </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Excel Tools
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <li><a class="dropdown-item" href="{% url 'file_tools:combine_excel' %}">Combine Excel</a></li>
+                  <li><a class="dropdown-item" href="#">Split Excel</a></li>
+                </ul>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Pdf Tools
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <li><a class="dropdown-item" href="#">Split Pdf</a></li>
+                  <li><a class="dropdown-item" href="#">Sort Pdf</a></li>
+                  <li><a class="dropdown-item" href="#">Add Number To Pdf</a></li>
+                  <li><a class="dropdown-item" href="#">Encrypt Pdf</a></li>
+                  <li><a class="dropdown-item" href="#">Decrypt Pdf</a></li>
+                  <li><a class="dropdown-item" href="#">Delete Pages</a></li>
+                  <li><a class="dropdown-item" href="#">Rotate Pdf</a></li>
+                </ul>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Other Tools
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <li><a class="dropdown-item" href="#">Combine Text Files</a></li>
+                  <li><a class="dropdown-item" href="#">Excel To Pdf</a></li>
+                  <li><a class="dropdown-item" href="#">Ppt To Pdf</a></li>
+                  <li><a class="dropdown-item" href="#">Word To Pdf</a></li>
+                </ul>
+              </li>
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'core:logout' %}">LOGOUT</a>
               </li>
