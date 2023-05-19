@@ -1,7 +1,6 @@
 # import os
 from django.db import models
 
-# ---Local Imports---
 from core.models import User
 from core.validators import ExcelFileValidator
 # Create your models here.

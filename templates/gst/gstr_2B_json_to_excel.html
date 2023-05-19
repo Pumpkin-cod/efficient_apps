@@ -13,6 +13,7 @@
     <form method="post" action="{% url 'gst:gstr_2B_json_to_excel' %}" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="row sectionTwo_gst_chck_num bg-primary mt-5 p-4 rounded-5">
+            {% if msg %} {% autoescape off %} {{ msg }} {% endautoescape %} {% endif %}
             <div class="card bg-light">
                 <div class="card-body">
                     <div class="col-6">
