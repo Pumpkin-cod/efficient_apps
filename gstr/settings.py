@@ -25,8 +25,7 @@ SECRET_KEY = "rmv*m%@=jl!8m$qstvaxiget5ms(!ekl^l2=)g90vc!28l)3f="
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["64.227.133.88", '127.0.0.1', 'gst.efficientcorporates.in']    
-
+ALLOWED_HOSTS = ["64.227.133.88", '127.0.0.1', 'gst.efficientcorporates.in']
 
 
 # Application definition
