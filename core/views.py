@@ -7,11 +7,11 @@ from django.contrib.auth import login, authenticate, logout
 from django.http import HttpRequest, HttpResponse, FileResponse, Http404
 from django.contrib.auth.decorators import login_required
 import pandas
-import logging, traceback
+import  traceback
 
 from .forms import UserCreationForm, UserAuthenticationForm, UploadFileForm
 from .gstr_pr_reco import reco_itr_2a, download
-
+from gstr.settings import logger
 # Create your views here.
 def index(request: HttpRequest) -> HttpResponse:
     if request.user.is_authenticated:
@@ -25,52 +25,56 @@ def index(request: HttpRequest) -> HttpResponse:
 
 @login_required()
 def gstr_home(request: HttpRequest, working_file_path=None, summary_file_path=None) -> HttpResponse: 
-
-    if summary_file_path:
-        excel_data_df = pandas.read_excel(summary_file_path)
-        summary_file = excel_data_df.to_json()
-    is_upload = False
-    file_path_1=None
-    file_path_2=None
-    form = UploadFileForm()
-    if request.method == "POST":
-        form = UploadFileForm(request.POST, request.FILES)
-        file_1 = request.FILES.get('file_1')
-        file_2 = request.FILES.get('file_2')
-        if form.is_valid():
-            instance = form.save(commit=False)
-            instance.user = request.user
-            instance.file_1 = file_1
-            instance.file_2 = file_2
-            instance.save()
-            is_upload=True
-            file_path_1=instance.file_1.path
-            file_path_2=instance.file_2.path
-            messages.success(request, "File Uploaded ready to reconcile... Click reconcile to reconcile")
-            # print('hello', type(instance.file_1.url))
-            # print(os.path.join(settings.BASE_DIR, instance.file_1.name.replace("/", os.path.sep)))
-            # print(instance.file_1.path)
-            # result = reco_itr_2a(instance.file_1.path, instance.file_2.path)
-            # file_full_path = result.get('fullpath2')
-            # print(file_full_path)
-            # is_file_path_ready = file_full_path
-            # return redirect("core:index")
-        else:
-            messages.error(request, "Upload failed, File is not a valid file!!!")
-    context = {"form": form,
-                "working_file_path":working_file_path,
-                "summary_file_path":summary_file_path,
-                "summary_file": summary_file if summary_file_path else None,
-                "is_upload":is_upload,
-                "file_path_1":file_path_1,
-                "file_path_2":file_path_2
-                }
-    return render(request, "gstr_home.html", context)
-
+    try :
+        logger.info('gstr home start .................')
+        if summary_file_path:
+            excel_data_df = pandas.read_excel(summary_file_path)
+            summary_file = excel_data_df.to_json()
+        is_upload = False
+        file_path_1=None
+        file_path_2=None
+        form = UploadFileForm()
+        if request.method == "POST":
+            form = UploadFileForm(request.POST, request.FILES)
+            file_1 = request.FILES.get('file_1')
+            file_2 = request.FILES.get('file_2')
+            if form.is_valid():
+                instance = form.save(commit=False)
+                instance.user = request.user
+                instance.file_1 = file_1
+                instance.file_2 = file_2
+                instance.save()
+                is_upload=True
+                file_path_1=instance.file_1.path
+                file_path_2=instance.file_2.path
+                messages.success(request, "File Uploaded ready to reconcile... Click reconcile to reconcile")
+                # print('hello', type(instance.file_1.url))
+                # print(os.path.join(settings.BASE_DIR, instance.file_1.name.replace("/", os.path.sep)))
+                # print(instance.file_1.path)
+                # result = reco_itr_2a(instance.file_1.path, instance.file_2.path)
+                # file_full_path = result.get('fullpath2')
+                # print(file_full_path)
+                # is_file_path_ready = file_full_path
+                # return redirect("core:index")
+            else:
+                messages.error(request, "Upload failed, File is not a valid file!!!")
+        context = {"form": form,
+                    "working_file_path":working_file_path,
+                    "summary_file_path":summary_file_path,
+                    "summary_file": summary_file if summary_file_path else None,
+                    "is_upload":is_upload,
+                    "file_path_1":file_path_1,
+                    "file_path_2":file_path_2
+                    }
+        logger.info('gstr home ends...............')
+        return render(request, "gstr_home.html", context)
+    except Exception as e :
+        logger.warning(traceback.format_exc())
+        return HttpResponse('An Unexpected error ocrred')
 
 @login_required()
 def reconcile(request, file_1, file_2):
-    logging.info("Reconciliation triggered for GSTR2A & ITR")
+    logger.info("Reconciliation triggered for GSTR2A & ITR")
     if file_1 and file_2:
         try:
             result = reco_itr_2a(file_1, file_2)

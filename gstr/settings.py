@@ -141,7 +141,7 @@ LOGGING ={
     'version':1,
     'loggers':{
         'django':{
-            'handlers':['file','file2'],
+            'handlers':['file','file2',"console"],
             'level':'DEBUG'
         }
     },
@@ -157,7 +157,12 @@ LOGGING ={
             'class': 'logging.FileHandler',
             'filename':'./logs/debug6.log',
             'formatter':'simpleRe',
-        }
+        },
+        "console": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+        },
+
     },
     'formatters':{
         'simpleRe': {
@@ -168,3 +173,5 @@ LOGGING ={
     }
 }
 
+import logging 
+logger = logging.getLogger('django')
