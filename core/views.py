@@ -7,6 +7,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.http import HttpRequest, HttpResponse, FileResponse, Http404
 from django.contrib.auth.decorators import login_required
 import pandas
+import logging, traceback
 
 from .forms import UserCreationForm, UserAuthenticationForm, UploadFileForm
 from .gstr_pr_reco import reco_itr_2a, download
@@ -69,6 +70,7 @@ def gstr_home(request: HttpRequest, working_file_path=None, summary_file_path=No
 
 @login_required()
 def reconcile(request, file_1, file_2):
+    logging.info("Reconciliation triggered for GSTR2A & ITR")
     if file_1 and file_2:
         try:
             result = reco_itr_2a(file_1, file_2)
