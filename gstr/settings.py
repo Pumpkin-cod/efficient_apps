@@ -24,9 +24,8 @@ SECRET_KEY = "rmv*m%@=jl!8m$qstvaxiget5ms(!ekl^l2=)g90vc!28l)3f="
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-# DEBUG = True
 
-ALLOWED_HOSTS = ["64.227.133.88", '127.0.0.1']
+ALLOWED_HOSTS = ["64.227.133.88", '127.0.0.1', 'gst.efficientcorporates.in']
 
 
 # Application definition
@@ -135,3 +134,44 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'upload')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+LOGGING ={
+    'version':1,
+    'loggers':{
+        'django':{
+            'handlers':['file','file2',"console"],
+            'level':'DEBUG'
+        }
+    },
+    'handlers':{
+        'file':{
+            'level':'INFO',
+            'class': 'logging.FileHandler',
+            'filename':'./logs/debug5.log',
+            'formatter':'simpleRe',
+        },
+        'file2':{
+            'level':'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename':'./logs/debug6.log',
+            'formatter':'simpleRe',
+        },
+        "console": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+        },
+
+    },
+    'formatters':{
+        'simpleRe': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        }
+
+    }
+}
+
+import logging 
+logger = logging.getLogger('django')

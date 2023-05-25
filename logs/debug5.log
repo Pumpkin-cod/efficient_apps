@@ -1,0 +1,9 @@
+INFO 2023-05-23 09:12:32,662 autoreload 11552 8656 Watching for file changes with StatReloader
+INFO 2023-05-23 09:12:51,020 basehttp 11552 6076 "GET /gst/gstr_2a_merge_excel HTTP/1.1" 200 4319
+INFO 2023-05-23 09:12:53,311 basehttp 11552 6076 "GET /gstr_home/ HTTP/1.1" 200 5406
+INFO 2023-05-23 09:12:58,462 basehttp 11552 6076 "GET /gst/gstr_2B_json_to_excel HTTP/1.1" 200 4325
+INFO 2023-05-23 09:13:00,033 basehttp 11552 6076 "GET /gst/gstr_2b_merge_excel HTTP/1.1" 200 4306
+INFO 2023-05-23 09:13:01,307 basehttp 11552 6076 "GET /gst/gstr_3B_pdf_to_excel HTTP/1.1" 200 4312
+INFO 2023-05-23 09:13:02,696 basehttp 11552 6076 "GET /gst/gst_number_check HTTP/1.1" 200 8143
+INFO 2023-05-23 09:13:11,345 basehttp 11552 6076 "GET /gst/gstr_1_json_to_excel HTTP/1.1" 200 4310
+INFO 2023-05-23 09:14:20,431 basehttp 11552 6076 "POST /gst/gstr_1_json_to_excel HTTP/1.1" 200 66154
