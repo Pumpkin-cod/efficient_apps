@@ -20,8 +20,8 @@
 }
 
 .hero-content {
-	text-align: start;
-	font-size: 2rem;
+	text-align: start !important;
+	font-size: 1rem;
 	font-family: 'Imprima', sans-serif;
 	color: #fff;
 	margin-top: 5rem;
@@ -29,7 +29,6 @@
 
 .button{
   background-color: #f2a229 !important;
-  /* color: #fff; */
   border-radius: 0.3rem;
   border: none !important;
   padding: 0.7rem 2rem !important;

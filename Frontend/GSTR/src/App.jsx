@@ -11,7 +11,7 @@ import Services from './components/Services';
 import Navbar from './components/Navbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Signup from './components/Signup';
-import LoginPage from './components/Login';
+import LoginPage from './components/LoginPage';
 
 const App = () => {
   return (
@@ -23,7 +23,7 @@ const App = () => {
         <Route path="/contact" component={Contact} />
         <Route path="/services" component={Services} />
         <Route path="/signup" component={Signup} />
-        <Route path="/login" component={LoginPage} />
+        <Route path="/loginPage" component={LoginPage} />
       </Switch>
     </div>
   );

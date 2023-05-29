@@ -16,22 +16,26 @@
   box-shadow: 0px 5px 7px rgba(0, 0, 0, 0.2);
 }
 
-img{
-    height: 5rem;
-    width: 5rem;
+.navbar img {
+  height: 5rem;
+  width: 5rem;
 }
 
-.navbar-icon {
-  margin-right: 0.5rem;
+/* .navbar-logo{
+  display: flex !important;
+  flex-direction: row;
 }
+.navbar-logo img {
+  height: 5rem;
+  width: 5rem;
+  margin-right: 1rem;
+} */
 
 .nav-menu {
   display: flex;
   align-items: center;
-  justify-content: center;
   list-style: none;
   text-align: center;
-  justify-content: flex-end;
   font-family: 'Imprima', sans-serif;
 }
 
@@ -42,8 +46,6 @@ img{
 
 .nav-links {
   color: #13824D;
-  display: flex;
-  align-items: center;
   text-decoration: none;
   padding: 0.5rem 1rem;
   height: 100%;
@@ -53,16 +55,12 @@ img{
   color: #F2A229;
 }
 
-/* .fa-bars {
-  color: #fff;
-} */
-
 .menu-icon {
   display: none;
 }
 
 @media screen and (max-width: 960px) {
-  .NavbarItems {
+  .navbar {
     position: relative;
   }
 
@@ -75,14 +73,14 @@ img{
     left: -100%;
     opacity: 1;
     transition: all 0.5s ease;
+    background: #6363ef;
+    z-index: 1;
   }
 
   .nav-menu.active {
-    background: #6363ef;
     left: 0;
     opacity: 1;
     transition: all 0.6s ease;
-    z-index: 1;
   }
 
   .nav-links {
@@ -124,9 +122,9 @@ img{
   }
 }
 
-.signup{
-    border: 1px solid #F2A229;
-    background-color: #F2A229;
-    border-radius: 0.5rem;
-    color: #ffffff;
+.signup {
+  border: 1px solid #F2A229;
+  background-color: #F2A229;
+  border-radius: 0.5rem;
+  color: #ffffff;
 }

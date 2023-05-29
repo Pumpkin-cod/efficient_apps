@@ -15,9 +15,10 @@ import Contact from "./components/Contact";
 import Services from "./components/Services";
 import Navbar from "./components/Navbar";
 import Signup from "./components/Signup";
-import Login from "./components/Login"
+import LoginPage from "./components/LoginPage"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./CSS/style.css"
+
 
 
 
@@ -32,7 +33,7 @@ const App = () => {
       <Route path="/contact" element={<Contact />} />
       <Route path="/services" element={<Services />} />
       <Route path="/signup" element={<Signup />} />
-      <Route path="/login" element={<Login />} />
+      <Route path="/loginPage" element={<LoginPage />} />
       </Routes>
     </div>
   );
@@ -65,8 +66,8 @@ const router = createBrowserRouter([
         element: <Signup />,
       },
       {
-        path: "login",
-        element: <Login />,
+        path: "loginPage",
+        element: <LoginPage />,
       },
     ]
   }

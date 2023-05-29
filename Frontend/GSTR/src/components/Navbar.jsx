@@ -17,7 +17,10 @@ function Navbar() {
                     <div className='navbar-container container'>
                         <div className='navbar-logo'>
                             <Link to="/" onClick={closeMobileMenu}>
-                                <img src='https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpbs.twimg.com%2Fprofile_images%2F1458078161556541443%2F-l-c3MB6.jpg&f=1&nofb=1&ipt=3da83356342e608e3ec7909aaa14cba79c6662d1af2699bc475150766a986ab7&ipo=images'/>
+                                <img src='https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpbs.twimg.com%2Fprofile_images%2F1458078161556541443%2F-l-c3MB6.jpg&f=1&nofb=1&ipt=3da83356342e608e3ec7909aaa14cba79c6662d1af2699bc475150766a986ab7&ipo=images' />
+                                {/* <h4>EFFICIENT 
+                                <br />
+                                CORPORATES</h4> */}
                             </Link>
                         </div>
                         <div className='menu-icon' onClick={handleClick}>
@@ -42,7 +45,7 @@ function Navbar() {
                                 <NavLink to="/signup" className={({ isActive }) => "nav-links" + (isActive ? " activated" : "")} onClick={closeMobileMenu}>Sign Up</NavLink>
                             </li>
                             <li className='nav-item'>
-                                <NavLink to="/login" className={({ isActive }) => "nav-links" + (isActive ? " activated" : "")} onClick={closeMobileMenu}>Login</NavLink>
+                                <NavLink to="/loginPage" className={({ isActive }) => "nav-links" + (isActive ? " activated" : "")} onClick={closeMobileMenu}>Login</NavLink>
                             </li>
                         </ul>
                     </div>
