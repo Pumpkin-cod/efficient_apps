@@ -4,51 +4,21 @@
   padding: 0;
 }
 
-/* .engulf{
-  background: rgba(0, 0, 0, 0.5) url(https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.mm.bing.net%2Fth%3Fid%3DOIP.tq9SwY9CqFa50eNTx_ulMgAAAA%26pid%3DApi&f=1&ipt=fd6cae224259b1821ed14def9ccecd11d9b98728da40fd34ac006212519283be&ipo=images);
-  background-size: cover;
-  background-blend-mode: darken;
-  height: 120vh;
-
-} */
-
 .navbar {
-  background: #13824D;
-  height: 5rem;
+  background: #ffffff;
+  height: 6rem;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 1.2rem;
-  /* position: sticky; */
-  top: 0;
-  z-index: 999;
-  margin-bottom: 3rem;
+  position: sticky;
+  font-family: 'Imprima', sans-serif;
+  box-shadow: 0px 5px 7px rgba(0, 0, 0, 0.2);
 }
-
-.navbar-container {
-  display: flex;
-  justify-content: space-between;
-  height: 5rem;
-}
-
-.container {
-  z-index: 1;
-  width: 100%;
-  max-width: 1300px;
-  margin-right: auto;
-  margin-left: auto;
-  padding-right: 50px;
-  padding-left: 50px;
-}
-
-/* .navbar-logo {
-  height: 2rem;
-  width: 2rem;
-} */
 
 img{
-    height: 3rem;
-    width: 3rem;
+    height: 5rem;
+    width: 5rem;
 }
 
 .navbar-icon {
@@ -62,12 +32,8 @@ img{
   list-style: none;
   text-align: center;
   justify-content: flex-end;
+  font-family: 'Imprima', sans-serif;
 }
-
-/* .nav-item {
-  height: 80px;
-  border-bottom: 2px solid transparent;
-} */
 
 .nav-item:hover {
   border-bottom: 2px solid rgb(232, 202, 176);
@@ -75,7 +41,7 @@ img{
 }
 
 .nav-links {
-  color: #fff;
+  color: #13824D;
   display: flex;
   align-items: center;
   text-decoration: none;
@@ -161,4 +127,6 @@ img{
 .signup{
     border: 1px solid #F2A229;
     background-color: #F2A229;
+    border-radius: 0.5rem;
+    color: #ffffff;
 }

@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import imageSrc from '../images/Allura - Feedback Session.png';
 import { Link } from 'react-router-dom';
-import "./login.css"
+import "../CSS/login.css"
 
 function LoginPage() {
     const [name, setName] = useState('');
@@ -57,8 +57,9 @@ function LoginPage() {
     return (
         <div className='big-container'>
         <div className='container'>
-            <h2>Login</h2>
+           
             <form className='login-form' onSubmit={handleSubmit}>
+                    <h2>Login</h2>
                 <div>
                     <label htmlFor="name">Name</label>
                     <input type="text" id="name" value={name} onChange={handleNameChange} />

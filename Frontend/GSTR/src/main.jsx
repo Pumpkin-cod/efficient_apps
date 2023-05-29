@@ -17,7 +17,7 @@ import Navbar from "./components/Navbar";
 import Signup from "./components/Signup";
 import Login from "./components/Login"
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "./style.css"
+import "./CSS/style.css"
 
 
 
